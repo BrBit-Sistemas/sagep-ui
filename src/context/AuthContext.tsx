@@ -128,8 +128,10 @@ const AuthProvider = ({ children }: Props) => {
   const handleLogout = () => {
     setUser(null)
     setIsInitialized(false)
+    
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem(accountApiServices.storageTokenKeyName)
+
     router.push('/login')
   }
 
