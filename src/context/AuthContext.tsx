@@ -87,7 +87,7 @@ const AuthProvider = ({ children }: Props) => {
         const returnUrl = router.query.returnUrl
         setUser({ ...res.data.userData })
 
-        await window.localStorage.setItem('userData', JSON.stringify(res.data.userData))
+        window.localStorage.setItem('userData', JSON.stringify(res.data.userData))
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
@@ -97,14 +97,14 @@ const AuthProvider = ({ children }: Props) => {
         axios
           .get(apiAccount.me, {
             headers: {
-              Authorization: "Bearer " + window.localStorage.getItem(apiAccount.storageTokenKeyName)!
+              Authorization: `Bearer ${window.localStorage.getItem(apiAccount.storageTokenKeyName)}`
             }
           })
           .then(async response => {
             const returnUrl = router.query.returnUrl
             setUser({ ...response.data.userData })
 
-            await window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
+            window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
 
             const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
