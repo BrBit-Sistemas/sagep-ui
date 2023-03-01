@@ -1,3 +1,5 @@
+// ** IMPORTS
+
 // ** React Imports
 import { useContext, useState, useEffect, useCallback } from 'react'
 
@@ -36,31 +38,37 @@ import PageHeader from 'src/@core/components/page-header'
 import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
-import { fetchData, alterStatusClientes } from 'src/store/negocios/comercial/cliente'
+import { fetchData } from 'src/store/negocios/comercial/detento'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
 import { ThemeColor } from 'src/@core/layouts/types'
-import { ClienteType } from 'src/types/negocios/comercial/cliente/clienteTypes'
+import { DetentoType } from 'src/types/negocios/comercial/detento/detentoTypes'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/negocios/comercial/cliente/new/TableHeader'
-import ClienteAddDrawer from 'src/views/negocios/comercial/cliente/new/ClienteAddDrawer'
+import DetentoAddDrawer from 'src/views/negocios/comercial/detento/new/DetentoAddDrawer'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
-interface ClientStatusType {
+// **
+
+// ** INTERFACES
+interface DetentosStatusType {
   [key: string]: ThemeColor
 }
 
 interface CellType {
-  row: ClienteType
+  row: DetentoType
 }
 
-const clientStatusObj: ClientStatusType = {
+// **
+
+// ** MÉTODOS PRIVADOS E VARIÁVEIS EM GERAL
+const detentoStatusObj: DetentosStatusType = {
   ACTIVE: 'success',
-  RECORRENTE: 'secondary'
+  INACTIVE: 'error'
 }
 
 // ** Styled component for the link for the avatar without image
@@ -70,11 +78,11 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
 }))
 
 // ** renders cliente column
-const renderClient = (row: ClienteType) => {
+const renderDetento = (row: DetentoType) => {
   return (
     <AvatarWithoutImageLink href="#">
       <CustomAvatar skin='light' color={'primary'} sx={{ mr: 3, width: 30, height: 30, fontSize: '.875rem' }}>
-        {getInitials(row.nomeFantasia ? row.nomeFantasia : 'NF')}
+        {getInitials(row.nome ? row.nome : 'Nd')}
       </CustomAvatar>
     </AvatarWithoutImageLink>
   )
@@ -90,18 +98,10 @@ const RenderStatus = ({ status }: { status: string }) => {
       skin='light'
       size='small'
       label={t(status)}
-      color={clientStatusObj[status]}
+      color={detentoStatusObj[status]}
       sx={{ textTransform: 'capitalize' }}
     />
   )
-}
-
-const formatCnpj = (cnpj: string) => {
-  return cnpj?.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
-}
-
-const formatCpf = (cpf: string) => {
-  return cpf?.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
 }
 
 const defaultColumns = [
@@ -113,11 +113,11 @@ const defaultColumns = [
     headerAlign: 'left' as const,
     align: 'left' as const,
     renderCell: ({ row }: CellType) => {
-      const { nomeFantasia, emailPrincipal } = row
+      const { ipen, nome } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
+          {renderDetento(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography
               noWrap
@@ -125,10 +125,10 @@ const defaultColumns = [
               variant='body2'
               sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
             >
-              {nomeFantasia}
+              {nome}
             </Typography>
             <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
-              📬{emailPrincipal}
+              📬{ipen}
             </Typography>
           </Box>
         </Box>
@@ -145,67 +145,7 @@ const defaultColumns = [
     renderCell: ({ row }: CellType) => {
       return (
         <Typography noWrap variant='body2'>
-          {formatCnpj(row.cnpj)}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'cpf',
-    headerName: 'CPF',
-    headerAlign: 'center' as const,
-    align: 'center' as const,
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {formatCpf(row.cpf)}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'telefonePrincipal',
-    headerName: 'Telefone principal',
-    headerAlign: 'center' as const,
-    align: 'center' as const,
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.telefonePrincipal}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'cidade',
-    headerName: 'Cidade',
-    headerAlign: 'center' as const,
-    align: 'center' as const,
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.cidade}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'Estado',
-    headerName: 'estado',
-    headerAlign: 'center' as const,
-    align: 'center' as const,
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.estado}
+          {row.ipen}
         </Typography>
       )
     }
@@ -221,7 +161,10 @@ const defaultColumns = [
   }
 ]
 
-const ClientList = () => {
+// **
+
+// ** COMPONENT FUNCIONAL
+const DetentoList = () => {
   // ** Hooks
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
@@ -229,10 +172,10 @@ const ClientList = () => {
   // ** State
   const [value, setValue] = useState<string>('')
   const [pageSize, setPageSize] = useState<number>(10)
-  const [clienteAddOpen, setClienteAddOpen] = useState<boolean>(false)
+  const [detentoAddOpen, setDetentoAddOpen] = useState<boolean>(false)
 
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.cliente)
+  const store = useSelector((state: RootState) => state.detento)
 
   useEffect(() => {
     dispatch(
@@ -246,37 +189,7 @@ const ClientList = () => {
     setValue(val)
   }, [])
 
-  const handleAlterStatus = (id: string | undefined) => {
-    dispatch(alterStatusClientes(id))
-  }
-
-  const RenderButton = ({ id, status }: { id: string | undefined , status: string }) => {
-    if (status === 'INACTIVE') {
-      return (
-        <Tooltip title={t('Activate')}>
-          <IconButton onClick={() => handleAlterStatus(id)}>
-            <ElevatorUp fontSize='small' />
-          </IconButton>
-        </Tooltip>
-      )
-    } else if (status === 'ACTIVE') {
-      return (
-        <Tooltip title={t('Deactivate')}>
-          <IconButton onClick={() => handleAlterStatus(id)}>
-            <ElevatorDown fontSize='small' />
-          </IconButton>
-        </Tooltip>
-      )
-    } else {
-      return (
-        <IconButton onClick={() => handleAlterStatus(id)}>
-          <Help fontSize='small' />
-        </IconButton>
-      )
-    }
-  }
-
-  const toggleClienteAddDrawer = () => setClienteAddOpen(!clienteAddOpen)
+  const toggleDetentoAddDrawer = () => setDetentoAddOpen(!detentoAddOpen)
 
   const columns = [
     ...defaultColumns,
@@ -308,7 +221,6 @@ const ClientList = () => {
               </Link>
             </Tooltip>
           )}
-          {ability?.can('update', 'ac-cliente-page') && <RenderButton id={row.id} status={row.status} />}
         </Box>
       )
     }
@@ -319,14 +231,14 @@ const ClientList = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <PageHeader
-            title={<Typography variant='h5'>{t('Clients')}</Typography>}
-            subtitle={<Typography variant='body2'>{t('Clients listing')}.</Typography>}
+            title={<Typography variant='h5'>Detentos</Typography>}
+            subtitle={<Typography variant='body2'>Lista detentos.</Typography>}
           />
         </Grid>
-        {ability?.can('list', 'ac-cliente-page') ? (
+        {ability?.can('list', 'ac-detento-page') ? (
           <Grid item xs={12}>
             <Card>
-              <TableHeader value={value} handleFilter={handleFilter} toggle={toggleClienteAddDrawer} />
+              <TableHeader value={value} handleFilter={handleFilter} toggle={toggleDetentoAddDrawer} />
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
@@ -343,19 +255,26 @@ const ClientList = () => {
         ) : (
           <>{t("You do not have permission to view this resource.")}</>
         )}
-        {ability?.can('create', 'ac-cliente-page') ? (
-          <ClienteAddDrawer open={clienteAddOpen} toggle={toggleClienteAddDrawer} />
+        {ability?.can('create', 'ac-detento-page') ? (
+          <DetentoAddDrawer open={detentoAddOpen} toggle={toggleDetentoAddDrawer} />
         ) : <></>}
       </Grid>
     </Grid>
   )
 }
 
+// **
+
+// ** CASL
+
 // ** Controle de acesso da página
 // ** Usuário deve possuir a habilidade para ter acesso a esta página
-ClientList.acl = {
+DetentoList.acl = {
   action: 'list',
-  subject: 'ac-cliente-page'
+  subject: 'ac-detento-page'
 }
 
-export default ClientList
+// **
+
+// ** EXPORT
+export default DetentoList
