@@ -27,6 +27,7 @@ import vendedorComissao from 'src/store/negocios/comercial/vendedor/comissao'
 import chaveApi from 'src/store/sistema/configuracoes/chave-api/index'
 import rotina from 'src/store/sistema/rotina/index'
 import detento from 'src/store/negocios/comercial/detento/index'
+import nfse from 'src/store/fiscal/nfse/index'
 import email from 'src/store/apps/email'
 import calendar from 'src/store/apps/calendar'
 
@@ -56,6 +57,7 @@ export const store = configureStore({
     vendedorComissao,
     rotina,
     detento,
+    nfse,
     chat,
     email,
     calendar
