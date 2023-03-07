@@ -9,7 +9,7 @@ import axios from 'axios'
 import nfseApiService from 'src/@api-center/fiscal/nfse/nfseApiService'
 
 // ** Types
-import { NfseType } from 'src/types/fiscal/nfse/nfseTypes'
+import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
 
 // ** Toast
 import { toast } from "react-toastify";
@@ -41,7 +41,7 @@ export const fetchData = createAsyncThunk('appNfses/fetchData', async (params: D
 // ** Add Client
 export const addNfses = createAsyncThunk(
   'appNfses/addNfses',
-  async (data: NfseType, { getState, dispatch }: Redux) => {
+  async (data: NotaFiscalType, { getState, dispatch }: Redux) => {
     const storedToken = window.localStorage.getItem(nfseApiService.storageTokenKeyName)!
     const config = {
       headers: {

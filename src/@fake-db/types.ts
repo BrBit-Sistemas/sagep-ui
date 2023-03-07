@@ -1,4 +1,5 @@
 // Type Imports
+import { HomeFloor1 } from 'mdi-material-ui'
 import { ThemeColor } from 'src/@core/layouts/types'
 
 export type AppBarSearchType = {

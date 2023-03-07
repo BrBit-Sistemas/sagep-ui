@@ -25,14 +25,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import PageHeader from 'src/@core/components/page-header'
 
 // ** Actions Imports
-import { fetchData } from 'src/store/fiscal/nfse/index'
+import { fetchData } from 'src/store/fiscal/notaFiscal/index'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { NfseType } from 'src/types/fiscal/nfse/nfseTypes'
+import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
 
 // ** Custom Components Imports
-import TableHeader from 'src/views/fiscal/nfse/list/TableHeader'
+import TableHeader from 'src/views/fiscal/notaFiscal/list/TableHeader'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -44,7 +44,7 @@ import { defaultMessages } from 'src/@core/utils/enum/messages'
 // ** INTERFACES
 
 interface CellType {
-  row: NfseType
+  row: NotaFiscalType
 }
 
 // **
@@ -58,7 +58,7 @@ const defaultColumns = [
     headerAlign: 'left' as const,
     align: 'left' as const,
     renderCell: ({ row }: CellType) => {
-      const { IdentificacaoNfse_Numero } = row
+      const { numeroNotaFiscal } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -69,7 +69,7 @@ const defaultColumns = [
               variant='body2'
               sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
             >
-              {IdentificacaoNfse_Numero}
+              {numeroNotaFiscal}
             </Typography>
           </Box>
         </Box>
@@ -117,7 +117,7 @@ const NfseList = () => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {ability?.can('read', 'ac-nfse-page') && (
-            <Link href={`/fiscal/nfse/view/${row.id_nfse}`} passHref>
+            <Link href={`/fiscal/nfse/view/${row.id}`} passHref>
               <Tooltip title="Ver">
                 <IconButton>
                   <EyeOutline fontSize='small' sx={{ mr: 2 }} />
