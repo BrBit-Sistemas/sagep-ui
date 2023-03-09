@@ -220,7 +220,7 @@ const NfseList = () => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {ability?.can('read', 'ac-nfse-page') && (
-            <Link href={`/fiscal/nfse/view/${row.id}`} passHref>
+            <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
               <Tooltip title="Ver">
                 <IconButton>
                   <EyeOutline fontSize='small' sx={{ mr: 2 }} />

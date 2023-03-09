@@ -151,7 +151,7 @@ const data: NotaFiscalRowType[] = [
   },
 ]
 
-mock.onGet('/api/fiscal/notaFiscal/list').reply(config => {
+mock.onGet('/fiscal/notaFiscal/list').reply(config => {
   const { q = '', column = '', sort = '' } = config.params
   const queryLowered = q.toLowerCase()
 

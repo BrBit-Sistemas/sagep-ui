@@ -25,8 +25,9 @@ interface Redux {
 }
 
 // ** Fetch Nfses
-export const fetchData = createAsyncThunk('/api/fiscal/notaFiscal/list', async (params: DataParams) => {
+export const fetchData = createAsyncThunk('appNfses/fetchData', async (params: DataParams) => {
   const storedToken = window.localStorage.getItem(nfseApiService.storageTokenKeyName)!
+  //const response = await mock
   const response = await axios
                             .get(nfseApiService.listAsync, {
                                   headers: {
@@ -37,6 +38,7 @@ export const fetchData = createAsyncThunk('/api/fiscal/notaFiscal/list', async (
 
   return response.data
 })
+
 
 export const appNfsesSlice = createSlice({
   name: 'appNfses',
@@ -49,7 +51,7 @@ export const appNfsesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload.nfses
+      state.data = action.payload.data
       state.total = action.payload.total
       state.params = action.payload.params
       state.allData = action.payload.allData
