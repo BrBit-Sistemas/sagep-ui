@@ -14,6 +14,7 @@ import { DataGrid, ptBR } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -53,13 +54,11 @@ const defaultColumns = [
   {
     flex: 0.2,
     minWidth: 30,
-    field: 'nome',
-    headerName: 'Nome',
+    field: 'numero',
+    headerName: 'Número',
     headerAlign: 'left' as const,
     align: 'left' as const,
     renderCell: ({ row }: CellType) => {
-      const { numeroNotaFiscal } = row
-
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
@@ -69,10 +68,114 @@ const defaultColumns = [
               variant='body2'
               sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
             >
-              {numeroNotaFiscal}
+              {row.numeroNotaFiscal}
             </Typography>
           </Box>
         </Box>
+      )
+    }
+  },
+  {
+    flex: 0.2,
+    minWidth: 100,
+    field: 'fornecedor',
+    headerName: 'Tomador',
+    headerAlign: 'center' as const,
+    align: 'center' as const,
+    renderCell: ({ row }: CellType) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+            <Typography
+              noWrap
+              component='a'
+              variant='body2'
+              sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
+            >
+              {row.fornecedor.razaoSocial}
+            </Typography>
+            <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
+              📬{row.fornecedor.cnpj}{row.fornecedor.cpf}
+            </Typography>
+          </Box>
+      )
+    },
+  },
+  {
+    flex: 0.1,
+    minWidth: 50,
+    field: 'status',
+    headerName: 'Status',
+    headerAlign: 'center' as const,
+    align: 'center' as const,
+    renderCell: ({ row }: CellType) => {
+      return (
+        <CustomChip
+          skin='light'
+          size='small'
+          label={row.notaFiscalStatus.name}
+          //color={row.notaFiscalStatus.color}
+          sx={{ textTransform: 'capitalize' }}
+        />
+      )
+    },
+  },
+  {
+    flex: 0.1,
+    minWidth: 50,
+    field: 'chamada',
+    headerName: 'Cód. / Mês Chamada',
+    headerAlign: 'center' as const,
+    align: 'center' as const,
+    renderCell: ({ row }: CellType) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.codigoChamada} / {row.mesChamada}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.1,
+    minWidth: 50,
+    field: 'convenio',
+    headerName: 'Empresa / Convênio',
+    headerAlign: 'center' as const,
+    align: 'center' as const,
+    renderCell: ({ row }: CellType) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.codigoEmpresa} / {row.codigoConvenio}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.1,
+    minWidth: 50,
+    field: 'competencia',
+    headerName: 'Competência',
+    headerAlign: 'center' as const,
+    align: 'center' as const,
+    renderCell: ({ row }: CellType) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.competencia.toString()}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.1,
+    minWidth: 50,
+    field: 'valor',
+    headerName: 'Valor Serviços',
+    headerAlign: 'center' as const,
+    align: 'center' as const,
+    renderCell: ({ row }: CellType) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.valorServico}
+        </Typography>
       )
     }
   },
@@ -90,7 +193,7 @@ const NfseList = () => {
   const [pageSize, setPageSize] = useState<number>(10)
 
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.nfse)
+  const store = useSelector((state: RootState) => state.notaFiscal)
 
   useEffect(() => {
     dispatch(
@@ -135,8 +238,8 @@ const NfseList = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <PageHeader
-            title={<Typography variant='h5'>Nfses</Typography>}
-            subtitle={<Typography variant='body2'>Lista nfses.</Typography>}
+            title={<Typography variant='h5'>Notas Fiscais de Serviço eletrônicas</Typography>}
+            subtitle={<Typography variant='body2'>Lista NFS-e's.</Typography>}
           />
         </Grid>
         {ability?.can('list', 'ac-nfse-page') ? (

@@ -25,6 +25,11 @@ export type NotaFiscalStatusType = {
   color: string
 }
 
+export type ServicoType = {
+  id?: string
+  //colocar servico
+}
+
 export type NotaFiscalType = {
     id?: string
     numeroNotaFiscal: number
@@ -40,4 +45,6 @@ export type NotaFiscalType = {
     competencia: Date | string
     informacoesComplementares: string
     codigoCancelamento: string
+    valorServico: string
+    servico: Array<ServicoType>
 }
