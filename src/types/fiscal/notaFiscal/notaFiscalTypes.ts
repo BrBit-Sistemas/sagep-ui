@@ -25,9 +25,14 @@ export type NotaFiscalStatusType = {
   color: string
 }
 
+export type ServicoType = {
+  id?: string
+  //colocar servico
+}
+
 export type NotaFiscalType = {
     id?: string
-    numeroNotaFiscal: number
+    numeroNotaFiscal?: number
     tenantId: string
     fornecedorId: string
     fornecedor: FornecedorType
@@ -40,4 +45,19 @@ export type NotaFiscalType = {
     competencia: Date | string
     informacoesComplementares: string
     codigoCancelamento: string
+    valorServico: string
+    servico: Array<ServicoType>
+}
+
+export type NotaFiscalRowType = {
+  id: string
+  numeroNotaFiscal?: number
+  fornecedor: Pick<FornecedorType, 'razaoSocial' | 'cnpj' | 'cpf'>
+  notaFiscalStatus: Pick<NotaFiscalStatusType, 'name' | 'color'>
+  codigoChamada: string
+  mesChamada: string
+  codigoEmpresa: number
+  codigoConvenio: number
+  competencia: Date | string
+  valorServico: string
 }
