@@ -123,13 +123,13 @@ const defaultColumns = [
     flex: 0.1,
     minWidth: 50,
     field: 'chamada',
-    headerName: 'Cód. / Mês Chamada',
+    headerName: 'Chamada',
     headerAlign: 'center' as const,
     align: 'center' as const,
     renderCell: ({ row }: CellType) => {
       return (
         <Typography noWrap variant='body2'>
-          {row.codigoChamada} / {row.mesChamada}
+          Cód. {row.codigoChamada} / Mês {row.mesChamada}
         </Typography>
       )
     }
@@ -138,13 +138,13 @@ const defaultColumns = [
     flex: 0.1,
     minWidth: 50,
     field: 'convenio',
-    headerName: 'Empresa / Convênio',
+    headerName: 'Convênio',
     headerAlign: 'center' as const,
     align: 'center' as const,
     renderCell: ({ row }: CellType) => {
       return (
         <Typography noWrap variant='body2'>
-          {row.codigoEmpresa} / {row.codigoConvenio}
+          Empresa {row.codigoEmpresa} / Convênio {row.codigoConvenio}
         </Typography>
       )
     }

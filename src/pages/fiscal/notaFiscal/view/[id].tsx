@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router'
-import NfseViewPage from 'src/views/fiscal/nfse/view/NfseViewPage'
+import NotaFiscalViewPage from 'src/views/fiscal/notaFiscal/view/NotaFiscalViewPage'
 
-const NfseViewRoute = () => {
+const NotaFiscalViewRoute = () => {
   const router = useRouter()
   const { id } = router.query
 
-  return <NfseViewPage nfseId={String(id)}/>
+  return <NotaFiscalViewPage notaFiscalId={String(id)}/>
 }
 
 // ** Controle de acesso da página
 // ** Usuário deve possuir a habilidade para ter acesso a esta página
-NfseViewRoute.acl = {
+NotaFiscalViewRoute.acl = {
   action: 'read',
   subject: 'ac-nfse-page'
 }
 
-export default NfseViewRoute
+export default NotaFiscalViewRoute
