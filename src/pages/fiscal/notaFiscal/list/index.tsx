@@ -114,7 +114,7 @@ const defaultColumns = [
           skin='light'
           size='small'
           label={row.notaFiscalStatus.name}
-          //color={row.notaFiscalStatus.color}
+          color={row.notaFiscalStatus.color}
           sx={{ textTransform: 'capitalize' }}
         />
       )
@@ -175,7 +175,7 @@ const defaultColumns = [
     renderCell: ({ row }: CellType) => {
       return (
         <Typography noWrap variant='body2'>
-          {row.valorServico}
+          {row.valorServicos}
         </Typography>
       )
     }

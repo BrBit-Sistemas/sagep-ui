@@ -21,7 +21,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '09/03/2023',
-    valorServico: 'R$ 1.200,00'
+    valorServicos: 'R$ 1.200,00'
   },
   {
     id: '2',
@@ -39,7 +39,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 2.000,00'
+    valorServicos: 'R$ 2.000,00'
   },
   {
     id: '3',
@@ -57,7 +57,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 10.000,00'
+    valorServicos: 'R$ 10.000,00'
   },
   {
     id: '4',
@@ -75,7 +75,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 1.000,00'
+    valorServicos: 'R$ 1.000,00'
   },
   {
     id: '5',
@@ -93,7 +93,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 1.000,00'
+    valorServicos: 'R$ 1.000,00'
   },
   {
     id: '6',
@@ -111,7 +111,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 1.000,00'
+    valorServicos: 'R$ 1.000,00'
   },
   {
     id: '7',
@@ -129,7 +129,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 1.000,00'
+    valorServicos: 'R$ 1.000,00'
   },
   {
     id: '8',
@@ -147,7 +147,7 @@ const data: NotaFiscalRowType[] = [
     codigoEmpresa: 1,
     codigoConvenio: 1,
     competencia: '08/03/2023',
-    valorServico: 'R$ 1.000,00'
+    valorServicos: 'R$ 1.000,00'
   },
 ]
 
@@ -173,7 +173,7 @@ mock.onGet('/fiscal/notaFiscal/list').reply(config => {
       item.codigoEmpresa.toString().toLowerCase().includes(queryLowered) ||
       item.codigoConvenio.toString().toLowerCase().includes(queryLowered) ||
       item.competencia.toString().toLowerCase().includes(queryLowered) ||
-      item.valorServico.toLowerCase().includes(queryLowered)
+      item.valorServicos.toLowerCase().includes(queryLowered)
   )
 
   return [
