@@ -18,6 +18,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
+import { Cancel, Email, Export, Send } from 'mdi-material-ui'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -85,18 +86,18 @@ const defaultColumns = [
     renderCell: ({ row }: CellType) => {
       return (
         <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              component='a'
-              variant='body2'
-              sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
-            >
-              {row.fornecedor.razaoSocial}
-            </Typography>
-            <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
-              📬{row.fornecedor.cnpj}{row.fornecedor.cpf}
-            </Typography>
-          </Box>
+          <Typography
+            noWrap
+            component='a'
+            variant='body2'
+            sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
+          >
+            {row.fornecedor.razaoSocial}
+          </Typography>
+          <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
+            📬{row.fornecedor.cnpj}{row.fornecedor.cpf}
+          </Typography>
+        </Box>
       )
     },
   },
@@ -219,15 +220,47 @@ const NfseList = () => {
       align: 'center' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {ability?.can('read', 'ac-nfse-page') && (
-            <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-              <Tooltip title="Ver">
-                <IconButton>
-                  <EyeOutline fontSize='small' sx={{ mr: 2 }} />
-                </IconButton>
-              </Tooltip>
-            </Link>
-          )}
+
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Ver">
+              <IconButton>
+                <EyeOutline fontSize='small' sx={{ mr: 2 }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Exportar">
+              <IconButton>
+                <Export fontSize='small' sx={{ mr: 2 }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Cancelar">
+              <IconButton>
+                <Cancel fontSize='small' sx={{ mr: 2 }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Enviar NFS-e">
+              <IconButton>
+                <Send fontSize='small' sx={{ mr: 2 }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Enviar E-mail">
+              <IconButton>
+                <Email fontSize='small' sx={{ mr: 2 }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
         </Box>
       )
     }
