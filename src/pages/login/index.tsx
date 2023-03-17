@@ -17,6 +17,7 @@ import FormControl from '@mui/material/FormControl'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
+
 import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography, { TypographyProps } from '@mui/material/Typography'
@@ -49,8 +50,22 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import Link from 'next/link'
+
+import ForgotPassword from '../forgot-password'
 
 // ** Styled Components
+
+const LinkStyled = styled('a')(({ theme }) => ({
+  fontSize: '14px',
+  fontWeight: '600',
+  color: '#ffc241',
+  margin: '8px 0px 24px',
+  opacity: '0.8',
+  transition: 'opacity 0.2s ease 0s',
+  alignSelf: 'flex-start'
+}))
+
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
@@ -77,20 +92,20 @@ const StyleSagep = styled('span')(({ theme }) => ({
   fontWeight: 400,
   letterSpacing: 0,
   fontSize: '2rem !important',
-  color: "#FFF"
+  color: '#FFF'
 }))
 
 const StyleWeb = styled('span')(({ theme }) => ({
   fontWeight: 300,
   letterSpacing: 0,
   fontSize: '2rem !important',
-  color: "#ffc241"
+  color: '#ffc241'
 }))
 
 const StyleSistemaPrisional = styled('span')(({ theme }) => ({
   lineHeight: 1,
   opacity: 0.5,
-  color: "#ffc241"
+  color: '#ffc241'
 }))
 
 const TypographyStyled = styled(Typography)<TypographyProps>(({ theme }) => ({
@@ -107,12 +122,8 @@ const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ t
 }))
 
 const schema = yup.object().shape({
-  email: yup.string()
-            .email()
-            .required("E-mail é requerido"),
-  password: yup.string()
-               .min(6, "Senha requer no mínimko 6 caracteres")
-               .required("Senha é requerida")
+  email: yup.string().email().required('E-mail é requerido'),
+  password: yup.string().min(6, 'Senha requer no mínimo 6 caracteres').required('Senha é requerida')
 })
 
 const defaultValues = {
@@ -131,7 +142,10 @@ const LoginPage = () => {
   // ** Hooks
   const auth = useAuth()
   const theme = useTheme()
-  
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+
   // const bgClasses = useBgColor()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -150,6 +164,12 @@ const LoginPage = () => {
     resolver: yupResolver(schema)
   })
 
+  const handleLogin = () => {
+    if (email.trim() === '') {
+      setErrorMessage('Por favor, insira seu email.')
+    }
+  }
+
   const onSubmit = (data: FormData) => {
     const { email, password } = data
     auth.login({ email, password }, () => {
@@ -159,11 +179,20 @@ const LoginPage = () => {
       })
     })
   }
-  
+
   return (
     <Box className='content-right'>
       {!hidden ? (
-        <Box sx={{ backgroundColor: "#2B4C81", flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            backgroundColor: '#2B4C81',
+            flex: 1,
+            display: 'flex',
+            position: 'relative',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
           <Typography
             variant='h4'
             sx={{
@@ -172,10 +201,10 @@ const LoginPage = () => {
               letterSpacing: 5.2,
               fontWeight: 900,
               fontSize: '2rem !important',
-              color: "#FFF"
+              color: '#FFF'
             }}
           >
-            Seja bem vindo ao <StyleSagep>Sagep</StyleSagep><StyleWeb>Web</StyleWeb>
+            Seja bem vindo(a) ao <StyleWeb>SAGEP</StyleWeb>
             <Typography
               variant='h4'
               sx={{
@@ -184,10 +213,11 @@ const LoginPage = () => {
                 lineHeight: 1,
                 fontWeight: 300,
                 fontSize: '1rem !important',
-                color: "#7290bf"
+                color: '#7290bf'
               }}
             >
-              Sistema de Segurança Pública voltado à gestão do <StyleSistemaPrisional>SISTEMA PRISIONAL</StyleSistemaPrisional>
+              Sistema de Segurança Pública voltado à gestão do{' '}
+              <StyleSistemaPrisional>SISTEMA PRISIONAL</StyleSistemaPrisional>
             </Typography>
           </Typography>
           {/* <LoginIllustrationWrapper>
@@ -218,10 +248,10 @@ const LoginPage = () => {
                 display: 'flex',
                 position: 'absolute',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
-              <Img height='38' alt='SagepWeb' src='/images/logo.png' />
+              <Img height='70' style={{ marginBottom: '10px' }} alt='SagepWeb' src='/images/logo.png' />
               <Typography
                 variant='h4'
                 sx={{
@@ -230,28 +260,23 @@ const LoginPage = () => {
                   lineHeight: 1,
                   fontWeight: 400,
                   fontSize: '1.5rem !important',
-                  color: "#FFF"
+                  color: '#FFF'
                 }}
-              >
-                Sagep
-              </Typography>
-              <Typography
-                variant='h4'
-                sx={{
-                  mt: 0,
-                  ml: 0,
-                  lineHeight: 1,
-                  fontWeight: 300,
-                  fontSize: '1.5rem !important',
-                  color: "#ffc241"
-                }}
-              >
-                Web
-              </Typography>
+              ></Typography>
             </Box>
-            <Box sx={{ mb: 6 }}>
-              <TypographyStyled variant='h2'>👮‍♂️ Login!</TypographyStyled>
-              <Typography variant='body2'>Faça login na sua conta e garanta seu acesso | 🔐</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Img height='100' alt='SagepWeb' src='/images/logo-completa.png' />
+
+              <Typography variant='body2' sx={{ textAlign: 'center', margin: '12px' }}>
+                Faça login na sua conta e garanta seu acesso | 🔐
+              </Typography>
             </Box>
             {/* <Alert icon={false} sx={{ py: 3, mb: 6, ...bgClasses.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
               <Typography variant='caption' sx={{ mb: 2, display: 'block', color: 'primary.main' }}>
@@ -319,15 +344,23 @@ const LoginPage = () => {
                   </FormHelperText>
                 )}
               </FormControl>
-              <Box
-                sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
+
+              <Typography>
+                <Link passHref href='/forgot-password'>
+                  <LinkStyled>
+                    <a>Esqueci minha senha</a>
+                  </LinkStyled>
+                </Link>
+              </Typography>
+
+              <Button
+                fullWidth
+                style={{ marginTop: '10%' }}
+                size='large'
+                type='submit'
+                variant='contained'
+                sx={{ mb: 7 }}
               >
-                <FormControlLabel control={<Checkbox />} label='Lembra-me?' />
-                {/* <Link passHref href='/forgot-password'>
-                  <LinkStyled>Esqueceu sua senha?</LinkStyled>
-                </Link> */}
-              </Box>
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Entrar
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
