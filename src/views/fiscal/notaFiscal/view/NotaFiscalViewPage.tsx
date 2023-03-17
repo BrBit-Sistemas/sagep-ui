@@ -9,11 +9,13 @@ import Card from '@mui/material/Card'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 import { defaultMessages } from 'src/@core/utils/enum/messages'
+import { defaultAnswer, exigibilidadeISS, codigoCancelamento, status, responsavelRetencao, defaultYesNo } from 'src/@core/utils/enum/fiscal'
 import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
 import { Box } from 'mdi-material-ui'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import CustomChip from 'src/@core/components/mui/chip'
+import { formatDocument, formatMoney, formatPhone } from 'src/@core/utils/format'
 
 interface Props {
   notaFiscalId: string
@@ -30,7 +32,7 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
     fornecedorId: '2',
     fornecedor: {
       razaoSocial: 'Nome Fornecedor',
-      cnpj: '123456789012',
+      cpf: '10180330926',
       inscricaoMunicipal: '222222',
       endereco: 'Rua José Munch',
       numero: '185',
@@ -42,7 +44,7 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
       telefone: '47992645470',
       email: 'maira.torresani@gmail.com'
     },
-    notaFiscalStatusId: '1',
+    notaFiscalStatusId: 2,
     notaFiscalStatus: {
       name: 'Enviada',
       color: 'success',
@@ -85,13 +87,13 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
     }]
   };
   if(notaFiscalId === '2') {
-    notaFiscalData.notaFiscalStatusId = '2'
+    notaFiscalData.notaFiscalStatusId = 3
     notaFiscalData.notaFiscalStatus.name = 'Cancelada'
     notaFiscalData.notaFiscalStatus.color = 'error'
     notaFiscalData.codigoCancelamento = '2'
   }
   if(notaFiscalId === '3') {
-    notaFiscalData.notaFiscalStatusId = '1'
+    notaFiscalData.notaFiscalStatusId = 1
     notaFiscalData.notaFiscalStatus.name = 'Não enviada'
     notaFiscalData.notaFiscalStatus.color = 'warning'
     delete notaFiscalData.numeroNotaFiscal;
@@ -113,20 +115,25 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
                 sx={{ textTransform: 'capitalize', marginLeft: '10px' }}
               />
             </Typography>
+              {notaFiscalData.notaFiscalStatusId === status.cancelled && !!notaFiscalData.codigoCancelamento && (
+              <Typography variant="body2" color="text.secondary">
+                Código de cancelamento: {codigoCancelamento[notaFiscalData.codigoCancelamento]}
+              </Typography>
+              )}
             <br/>
             <Typography variant="body2" color="text.secondary">
               <b>Dados do Fornecedor</b>
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Nome / Razão social: {notaFiscalData.fornecedor.razaoSocial}<br/>
-              CPF / CNPJ: {notaFiscalData.fornecedor.cpf}{notaFiscalData.fornecedor.cnpj}<br/>
+              CPF / CNPJ: {formatDocument(notaFiscalData.fornecedor.cpf || notaFiscalData.fornecedor.cnpj)}<br/>
               Inscrição municipal: {notaFiscalData.fornecedor.inscricaoMunicipal}<br/>
               Endereço: {notaFiscalData.fornecedor.endereco+' n '+notaFiscalData.fornecedor.numero}
               {!!notaFiscalData.fornecedor.complemento && ' - '+notaFiscalData.fornecedor.complemento}. 
               Bairro {notaFiscalData.fornecedor.bairro}, município {notaFiscalData.fornecedor.codigoMunicipio} / {notaFiscalData.fornecedor.uf}. 
               CEP {notaFiscalData.fornecedor.cep}<br/>
-              Telefone {notaFiscalData.fornecedor.telefone}<br/>
-              E-mail {notaFiscalData.fornecedor.email}
+              Telefone: {formatPhone(notaFiscalData.fornecedor.telefone)}<br/>
+              E-mail: {notaFiscalData.fornecedor.email}
             </Typography>
             <br/>
             <Typography variant="body2" color="text.secondary">
@@ -143,7 +150,36 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
               <b>Dados do Serviço</b>
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Valor Serviços: {notaFiscalData.valorServicos}
+              Valor total Serviços: {notaFiscalData.valorServicos}
+              {notaFiscalData.servico.map(servico => (
+                <div key={servico.id}>
+                  <br/>
+                  Serviço: {servico.itemListaServico}<br/>
+                  Discriminação: {servico.discriminacao}<br/>
+                  Valor serviço: R$ {formatMoney(servico.valorServicos.toString())}<br/>
+                  Valor deduções: R$ {formatMoney(servico.valorDeducoes?.toString())}<br/>
+                  Valor PIS: R$ {formatMoney(servico.valorPis?.toString())}<br/>
+                  Valor COFINS: R$ {formatMoney(servico.valorCofins?.toString())}<br/>
+                  Valor INSS: R$ {formatMoney(servico.valorInss?.toString())}<br/>
+                  Valor IR: R$ {formatMoney(servico.valorIr?.toString())}<br/>
+                  Valor CSLL: R$ {formatMoney(servico.valorCsll?.toString())}<br/>
+                  Outras retenções: R$ {formatMoney(servico.outrasRetencoes?.toString())}<br/>
+                  Valor total dos tributos: R$ {formatMoney(servico.valorTotalTributos?.toString())}<br/>
+                  Valor ISS: R$ {formatMoney(servico.valorIss?.toString())}<br/>
+                  Alíquota: {servico.aliquota || '0'}%<br/>
+                  Desconto incondicionado: R$ {formatMoney(servico.descontoIncondicionado?.toString())}<br/>
+                  Desconto condicionado: R$ {formatMoney(servico.descontoCondicionado?.toString())}<br/>
+                  ISS retido? {defaultAnswer[servico.isIssRetido]}{servico.isIssRetido === defaultYesNo.yes && !!servico.responsavelRetencao && ' Responsável retenção: '+responsavelRetencao[servico.responsavelRetencao]}<br/>
+                  Código CNAE: {servico.codigoCnae}<br/>
+                  Código tributação do município: {servico.codigoTributacaoMunicipio}<br/>
+                  Código NBS: {servico.codigoNbs}<br/>
+                  Código do município: {servico.codigoMunicipio}<br/>
+                  Município de incidência: {servico.municipioIncidencia}<br/>
+                  Exigibilidade ISS: {exigibilidadeISS[servico.exigibilidadeISS]}<br/>
+                  Identificação de não exigibilidade: {servico.identificacaoNaoExigibilidade}<br/>
+                  Número processo: {servico.numeroProcesso}<br/>
+                </div>
+              ))}
             </Typography>
           </CardContent>
           </Card>

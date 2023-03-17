@@ -18,7 +18,7 @@ export type FornecedorType = {
 }
 
 export type NotaFiscalStatusType = {
-  id?: string
+  id?: number
   name: string
   color: ThemeColor
 }
@@ -59,7 +59,7 @@ export type NotaFiscalType = {
     tenantId: string
     fornecedorId: string
     fornecedor: FornecedorType
-    notaFiscalStatusId: string
+    notaFiscalStatusId: number
     notaFiscalStatus: NotaFiscalStatusType
     codigoChamada: string
     mesChamada: string

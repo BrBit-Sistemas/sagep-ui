@@ -36,7 +36,7 @@ const TableHeader = (props: TableHeaderProps) => {
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Link href={`/fiscal/notaFiscal/view/`} passHref>
+        <Link href={`/fiscal/notaFiscal/view/1`} passHref>
           <Button sx={{ mb: 2 }} onClick={toggle} variant='contained'>
             <Download fontSize='small' sx={{ mr: 2 }} />
             {t("Exportar")}
