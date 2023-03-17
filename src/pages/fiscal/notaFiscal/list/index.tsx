@@ -31,7 +31,7 @@ import { fetchData } from 'src/store/fiscal/notaFiscal/index'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
+import { NotaFiscalRowType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/fiscal/notaFiscal/list/TableHeader'
@@ -40,13 +40,14 @@ import TableHeader from 'src/views/fiscal/notaFiscal/list/TableHeader'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 import { defaultMessages } from 'src/@core/utils/enum/messages'
+import axios from 'axios'
 
 // **
 
 // ** INTERFACES
 
 interface CellType {
-  row: NotaFiscalType
+  row: NotaFiscalRowType
 }
 
 // **
@@ -208,6 +209,15 @@ const NfseList = () => {
     setValue(val)
   }, [])
 
+  const [listNotaFiscal, setListNotaFiscal] = useState([]);
+  useEffect(() => {
+    axios.get('/fiscal/notaFiscal/list').then(response => {
+      const dataArray = response.data
+      console.log(dataArray)
+      setListNotaFiscal(dataArray)
+    })
+  }, []);
+
   const columns = [
     ...defaultColumns,
     {
@@ -291,6 +301,7 @@ const NfseList = () => {
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
                 rows={store.data}
+                //rows={listNotaFiscal}
                 columns={columns}
                 checkboxSelection
                 pageSize={pageSize}

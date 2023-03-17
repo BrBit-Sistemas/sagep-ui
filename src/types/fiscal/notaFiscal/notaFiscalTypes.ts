@@ -54,7 +54,7 @@ export type ServicoType = {
 }
 
 export type NotaFiscalType = {
-    id?: string
+    id: string
     numeroNotaFiscal?: number
     tenantId: string
     fornecedorId: string
