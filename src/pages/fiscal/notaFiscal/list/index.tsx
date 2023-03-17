@@ -18,7 +18,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
-import { Cancel, Email, Export, Send } from 'mdi-material-ui'
+import { Cancel, Email, Export, Note, Send } from 'mdi-material-ui'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -225,6 +225,14 @@ const NfseList = () => {
             <Tooltip title="Ver">
               <IconButton>
                 <EyeOutline fontSize='small' sx={{ mr: 2 }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Consultar">
+              <IconButton>
+                <Note fontSize='small' sx={{ mr: 2 }} />
               </IconButton>
             </Tooltip>
           </Link>
