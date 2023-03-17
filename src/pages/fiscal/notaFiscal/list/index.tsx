@@ -41,6 +41,9 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 import { defaultMessages } from 'src/@core/utils/enum/messages'
 import axios from 'axios'
+import useMock from 'src/@fake-db/fiscal/notaFiscal'
+import { formatDocument } from 'src/@core/utils/format'
+import { status } from 'src/@core/utils/enum/fiscal'
 
 // **
 
@@ -54,7 +57,7 @@ interface CellType {
 
 const defaultColumns = [
   {
-    flex: 0.2,
+    flex: 0.1,
     minWidth: 30,
     field: 'numero',
     headerName: 'Número',
@@ -78,7 +81,7 @@ const defaultColumns = [
     }
   },
   {
-    flex: 0.2,
+    flex: 0.15,
     minWidth: 100,
     field: 'fornecedor',
     headerName: 'Tomador',
@@ -96,7 +99,7 @@ const defaultColumns = [
             {row.fornecedor.razaoSocial}
           </Typography>
           <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
-            📬{row.fornecedor.cnpj}{row.fornecedor.cpf}
+            📬{formatDocument(row.fornecedor.cpf || row.fornecedor.cnpj)}
           </Typography>
         </Box>
       )
@@ -122,7 +125,7 @@ const defaultColumns = [
     },
   },
   {
-    flex: 0.1,
+    flex: 0.15,
     minWidth: 50,
     field: 'chamada',
     headerName: 'Chamada',
@@ -137,7 +140,7 @@ const defaultColumns = [
     }
   },
   {
-    flex: 0.1,
+    flex: 0.2,
     minWidth: 50,
     field: 'convenio',
     headerName: 'Convênio',
@@ -208,10 +211,12 @@ const NfseList = () => {
   const handleFilter = useCallback((val: string) => {
     setValue(val)
   }, [])
-
-  const [listNotaFiscal, setListNotaFiscal] = useState([]);
+  
+  const [listNotaFiscal, setListNotaFiscal] = useState();
   useEffect(() => {
-    axios.get('/fiscal/notaFiscal/list').then(response => {
+    const client = axios.create();
+    useMock(client);
+    client.get('/fiscal/notaFiscal/list').then(response => {
       const dataArray = response.data
       console.log(dataArray)
       setListNotaFiscal(dataArray)
@@ -221,7 +226,7 @@ const NfseList = () => {
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.1,
+      flex: 0.2,
       minWidth: 90,
       sortable: false,
       field: 'actions',
@@ -234,7 +239,7 @@ const NfseList = () => {
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Ver">
               <IconButton>
-                <EyeOutline fontSize='small' sx={{ mr: 2 }} />
+                <EyeOutline fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
@@ -242,7 +247,7 @@ const NfseList = () => {
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Consultar">
               <IconButton>
-                <Note fontSize='small' sx={{ mr: 2 }} />
+                <Note fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
@@ -250,34 +255,36 @@ const NfseList = () => {
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Exportar">
               <IconButton>
-                <Export fontSize='small' sx={{ mr: 2 }} />
+                <Export fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
 
+          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+            <Tooltip title="Enviar por E-mail">
+              <IconButton>
+                <Email fontSize='small' />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          {row.notaFiscalStatusId === status.sent && 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Cancelar">
               <IconButton>
-                <Cancel fontSize='small' sx={{ mr: 2 }} />
+                <Cancel fontSize='small' />
               </IconButton>
             </Tooltip>
-          </Link>
+          </Link>}
 
+          {row.notaFiscalStatusId === status.pending && 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Enviar NFS-e">
               <IconButton>
-                <Send fontSize='small' sx={{ mr: 2 }} />
+                <Send fontSize='small' />
               </IconButton>
             </Tooltip>
-          </Link>
-
-          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Enviar E-mail">
-              <IconButton>
-                <Email fontSize='small' sx={{ mr: 2 }} />
-              </IconButton>
-            </Tooltip>
-          </Link>
+          </Link>}
 
         </Box>
       )
@@ -300,8 +307,9 @@ const NfseList = () => {
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
-                rows={store.data}
-                //rows={listNotaFiscal}
+                //rows={store.data}
+                //@ts-ignore
+                rows={listNotaFiscal?.data}
                 columns={columns}
                 checkboxSelection
                 pageSize={pageSize}

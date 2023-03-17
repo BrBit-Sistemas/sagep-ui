@@ -76,6 +76,7 @@ export type NotaFiscalRowType = {
   id: string
   numeroNotaFiscal?: number
   fornecedor: Pick<FornecedorType, 'razaoSocial' | 'cnpj' | 'cpf'>
+  notaFiscalStatusId: number
   notaFiscalStatus: Pick<NotaFiscalStatusType, 'name' | 'color'>
   codigoChamada: string
   mesChamada: string
