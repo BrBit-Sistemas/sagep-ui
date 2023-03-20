@@ -303,7 +303,7 @@ const NfseList = () => {
         {ability?.can('list', 'ac-nfse-page') ? (
           <Grid item xs={12}>
             <Card>
-              <TableHeader value={value} handleFilter={handleFilter} />
+              <TableHeader toggle={(): void => {}} value={value} handleFilter={handleFilter} />
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
