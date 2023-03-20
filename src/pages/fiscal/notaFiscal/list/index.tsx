@@ -311,9 +311,11 @@ const NfseList = () => {
                 //@ts-ignore
                 rows={listNotaFiscal?.data}
                 columns={columns}
-                checkboxSelection
+                //checkboxSelection
                 pageSize={pageSize}
                 disableSelectionOnClick
+                disableColumnFilter
+                disableColumnMenu
                 rowsPerPageOptions={[10, 25, 50]}
                 onPageSizeChange={(newPageSize: number) => setPageSize(newPageSize)}
               />
