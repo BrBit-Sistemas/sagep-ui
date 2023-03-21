@@ -1,5 +1,4 @@
-// ** Next Import
-import Link from 'next/link'
+import { Dispatch, SetStateAction } from 'react';
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -8,19 +7,15 @@ import Button from '@mui/material/Button'
 
 // ** Import Toast
 import 'react-toastify/dist/ReactToastify.css';
-import { useTranslation } from 'react-i18next';
 import { Download, } from 'mdi-material-ui';
 
 interface TableHeaderProps {
   value: string
-  toggle: () => void
+  toggle: Dispatch<SetStateAction<boolean>>
   handleFilter: (val: string) => void
 }
 
 const TableHeader = (props: TableHeaderProps) => {
-  // ** Hook
-  const { t } = useTranslation()
-
 
   // ** Props
   const { handleFilter, toggle, value } = props
@@ -36,13 +31,11 @@ const TableHeader = (props: TableHeaderProps) => {
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Link href={`/fiscal/notaFiscal/view/1`} passHref>
-          <Button sx={{ mb: 2 }} onClick={toggle} variant='contained'>
-            <Download fontSize='small' sx={{ mr: 2 }} />
-            {t("Exportar")}
-
+        <div>
+          <Button sx={{ mb: 2 }} onClick={() => toggle(true)} variant='contained'>
+            <Download fontSize='small' sx={{ mr: 2 }} />Exportar
           </Button>
-        </Link>
+        </div>
       </Box>
     </Box>
   )

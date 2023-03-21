@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
-import { Popover } from '@mui/material'
+import Popover from '@mui/material/Popover'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -48,6 +48,7 @@ import axios from 'axios'
 import useMock from 'src/@fake-db/fiscal/notaFiscal'
 import { formatDocument } from 'src/@core/utils/format'
 import { status } from 'src/@core/utils/enum/fiscal'
+import ModalExport from 'src/views/fiscal/notaFiscal/list/ModalExport'
 
 
 // **
@@ -199,6 +200,7 @@ const defaultColumns = [
 
 // ** COMPONENT FUNCIONAL
 const NfseList = () => {
+  const [openModalExport, setOpenModalExport] = useState(false);
 
   //** popover
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -252,28 +254,48 @@ const NfseList = () => {
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.2,
+      flex: 0.15,
       minWidth: 90,
       sortable: false,
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'left' as const,
+      align: 'right' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+          {row.notaFiscalStatusId === status.sent && (
+            <>
+            <div>
+              <Tooltip title="Sincronizar">
+                <IconButton>
+                  <Update fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip title="Cancelar">
+                <IconButton>
+                  <Cancel fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </>
+          )}
+
+          {row.notaFiscalStatusId === status.pending &&
+            <div>
+              <Tooltip title="Enviar NFS-e">
+                <IconButton>
+                  <Send fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </div>}
 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Ver">
               <IconButton>
                 <EyeOutline fontSize='small' />
-              </IconButton>
-            </Tooltip>
-          </Link>
-
-          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Atualizar">
-              <IconButton>
-                <Update fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
@@ -312,31 +334,13 @@ const NfseList = () => {
 
           </Popover>
 
-          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+          <div>
             <Tooltip title="Enviar por E-mail">
               <IconButton>
                 <Email fontSize='small' />
               </IconButton>
             </Tooltip>
-          </Link>
-
-          {row.notaFiscalStatusId === status.sent &&
-            <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-              <Tooltip title="Cancelar">
-                <IconButton>
-                  <Cancel fontSize='small' />
-                </IconButton>
-              </Tooltip>
-            </Link>}
-
-          {row.notaFiscalStatusId === status.pending &&
-            <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-              <Tooltip title="Enviar NFS-e">
-                <IconButton>
-                  <Send fontSize='small' />
-                </IconButton>
-              </Tooltip>
-            </Link>}
+          </div>
 
         </Box>
       )
@@ -344,6 +348,7 @@ const NfseList = () => {
   ]
 
   return (
+    <>
     <Grid container spacing={2}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -355,7 +360,7 @@ const NfseList = () => {
         {ability?.can('list', 'ac-nfse-page') ? (
           <Grid item xs={12}>
             <Card>
-              <TableHeader toggle={(): void => { }} value={value} handleFilter={handleFilter} />
+              <TableHeader toggle={setOpenModalExport} value={value} handleFilter={handleFilter} />
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
@@ -363,7 +368,6 @@ const NfseList = () => {
                 //@ts-ignore
                 rows={listNotaFiscal?.data}
                 columns={columns}
-                //checkboxSelection
                 pageSize={pageSize}
                 disableSelectionOnClick
                 disableColumnFilter
@@ -378,6 +382,8 @@ const NfseList = () => {
         )}
       </Grid>
     </Grid>
+    <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
+    </>
   )
 }
 
