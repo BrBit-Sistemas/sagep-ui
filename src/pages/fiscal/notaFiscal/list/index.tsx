@@ -202,8 +202,8 @@ const NfseList = () => {
   //** popover
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (id?: string) => {
+    console.log(id)
   };
 
   const handleClose = () => {
@@ -278,11 +278,9 @@ const NfseList = () => {
           </Link>
 
           <Tooltip title="Exportar">
-            <Button aria-describedby={id} onClick={handleClick} size="small">
-              <IconButton>
+              <IconButton aria-describedby={id} onClick={() => handleClick(row.id)} size="small">
                 <Download fontSize='small' />
               </IconButton>
-            </Button>
           </Tooltip>
 
           <Popover
@@ -297,24 +295,18 @@ const NfseList = () => {
 
           >
             <Typography sx={{ p: 2 }}>
-              <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+              <div>
                 <Tooltip title="PDF">
-                  <Button aria-describedby={id} onClick={handleClick}>
-                    <IconButton>
+                    <IconButton aria-describedby={id} onClick={() => handleClick(row.id)}>
                       <FilePdfBox fontSize='small' />
                     </IconButton>
-                  </Button>
                 </Tooltip>
-              </Link>
-              <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
                 <Tooltip title="XML">
-                  <Button aria-describedby={id} onClick={handleClick}>
-                    <IconButton>
+                    <IconButton aria-describedby={id} onClick={() => handleClick(row.id)}>
                       <NoteCheckOutline fontSize='small' />
                     </IconButton>
-                  </Button>
                 </Tooltip>
-              </Link>
+              </div>
             </Typography>
 
           </Popover>
