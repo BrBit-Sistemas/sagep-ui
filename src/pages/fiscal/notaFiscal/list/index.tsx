@@ -17,11 +17,11 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
-import { Button, Popover } from '@mui/material'
+import {Popover } from '@mui/material'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
-import { Cancel,  Download, Email, FilePdfBox, Note, NoteCheckOutline, Send, Update, } from 'mdi-material-ui'
+import { Cancel, Download, Email, FilePdfBox, NoteCheckOutline, Send, Update, } from 'mdi-material-ui'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -278,11 +278,9 @@ const NfseList = () => {
           </Link>
 
           <Tooltip title="Exportar">
-            <Button aria-describedby={id} onClick={handleClick} size="small">
-              <IconButton>
-                <Download fontSize='small' />
-              </IconButton>
-            </Button>
+            <IconButton aria-describedby={id} onClick={handleClick} size="small">
+              <Download fontSize='small' />
+            </IconButton>
           </Tooltip>
 
           <Popover
@@ -297,24 +295,19 @@ const NfseList = () => {
 
           >
             <Typography sx={{ p: 2 }}>
-              <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+              <div>
                 <Tooltip title="PDF">
-                  <Button aria-describedby={id} onClick={handleClick}>
-                    <IconButton>
+                    <IconButton  onClick={handleClick}>
                       <FilePdfBox fontSize='small' />
                     </IconButton>
-                  </Button>
                 </Tooltip>
-              </Link>
-              <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+
                 <Tooltip title="XML">
-                  <Button aria-describedby={id} onClick={handleClick}>
-                    <IconButton>
-                      <NoteCheckOutline fontSize='small' />
-                    </IconButton>
-                  </Button>
+                  <IconButton onClick={handleClick}>
+                    <NoteCheckOutline fontSize='small' />
+                  </IconButton>
                 </Tooltip>
-              </Link>
+              </div>
             </Typography>
 
           </Popover>
