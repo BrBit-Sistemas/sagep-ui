@@ -17,11 +17,11 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
-import { Button, Popover } from '@mui/material'
+import {Popover } from '@mui/material'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
-import { Cancel, Download, Email, FilePdfBox, Note, NoteCheckOutline, Send, Update, } from 'mdi-material-ui'
+import { Cancel, Download, Email, FilePdfBox, NoteCheckOutline, Send, Update, } from 'mdi-material-ui'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -292,13 +292,14 @@ const NfseList = () => {
               vertical: 'bottom',
               horizontal: 'left',
             }}
+
           >
             <Typography sx={{ p: 2 }}>
               <div>
                 <Tooltip title="PDF">
-                  <IconButton onClick={handleClick}>
-                    <FilePdfBox fontSize='small' />
-                  </IconButton>
+                    <IconButton  onClick={handleClick}>
+                      <FilePdfBox fontSize='small' />
+                    </IconButton>
                 </Tooltip>
 
                 <Tooltip title="XML">
