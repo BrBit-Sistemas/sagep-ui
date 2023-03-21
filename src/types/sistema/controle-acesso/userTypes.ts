@@ -1,6 +1,7 @@
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
 import { Abilities } from 'src/context/types'
+import { TenantType }  from 'src/types/sistema/controle-acesso/tenantTypes'
 
 export type UserLayoutType = {
   id: string | undefined
@@ -34,6 +35,7 @@ export type UsersType = {
   userName: string
   currentPlan: string
   avatarColor?: ThemeColor
+  tenant: TenantType | undefined
 }
 
 export type UserEditType = {

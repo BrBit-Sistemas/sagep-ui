@@ -3,6 +3,8 @@
 // ** React Imports
 import { useContext, useState, useEffect, useCallback } from 'react'
 
+
+
 // ** Next Import
 import Link from 'next/link'
 
@@ -15,10 +17,11 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
+import { Button, Popover } from '@mui/material'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
-import { Cancel, Email, Export, Note, Send } from 'mdi-material-ui'
+import { Cancel, Download, Email, FilePdfBox, Note, NoteCheckOutline, Send, Update, } from 'mdi-material-ui'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,7 +48,12 @@ import useMock from 'src/@fake-db/fiscal/notaFiscal'
 import { formatDocument } from 'src/@core/utils/format'
 import { status } from 'src/@core/utils/enum/fiscal'
 
+
 // **
+
+
+
+
 
 // ** INTERFACES
 
@@ -190,12 +198,29 @@ const defaultColumns = [
 
 // ** COMPONENT FUNCIONAL
 const NfseList = () => {
+
+  //** popover
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   // ** Hooks
   const ability = useContext(AbilityContext)
 
   // ** State
   const [value, setValue] = useState<string>('')
   const [pageSize, setPageSize] = useState<number>(10)
+
+
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.notaFiscal)
@@ -211,7 +236,7 @@ const NfseList = () => {
   const handleFilter = useCallback((val: string) => {
     setValue(val)
   }, [])
-  
+
   const [listNotaFiscal, setListNotaFiscal] = useState();
   useEffect(() => {
     const client = axios.create();
@@ -232,7 +257,7 @@ const NfseList = () => {
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'center' as const,
+      align: 'left' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
@@ -245,20 +270,46 @@ const NfseList = () => {
           </Link>
 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Consultar">
+            <Tooltip title="Atualizar">
               <IconButton>
-                <Note fontSize='small' />
+                <Update fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
 
-          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Exportar">
-              <IconButton>
-                <Export fontSize='small' />
-              </IconButton>
-            </Tooltip>
-          </Link>
+          <Tooltip title="Exportar">
+            <IconButton aria-describedby={id} onClick={handleClick} size="small">
+              <Download fontSize='small' />
+            </IconButton>
+          </Tooltip>
+
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+            <Typography sx={{ p: 2 }}>
+              <div>
+                <Tooltip title="PDF">
+                  <IconButton onClick={handleClick}>
+                    <FilePdfBox fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="XML">
+                  <IconButton onClick={handleClick}>
+                    <NoteCheckOutline fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </Typography>
+
+          </Popover>
 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
             <Tooltip title="Enviar por E-mail">
@@ -268,23 +319,23 @@ const NfseList = () => {
             </Tooltip>
           </Link>
 
-          {row.notaFiscalStatusId === status.sent && 
-          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Cancelar">
-              <IconButton>
-                <Cancel fontSize='small' />
-              </IconButton>
-            </Tooltip>
-          </Link>}
+          {row.notaFiscalStatusId === status.sent &&
+            <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+              <Tooltip title="Cancelar">
+                <IconButton>
+                  <Cancel fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </Link>}
 
-          {row.notaFiscalStatusId === status.pending && 
-          <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Enviar NFS-e">
-              <IconButton>
-                <Send fontSize='small' />
-              </IconButton>
-            </Tooltip>
-          </Link>}
+          {row.notaFiscalStatusId === status.pending &&
+            <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
+              <Tooltip title="Enviar NFS-e">
+                <IconButton>
+                  <Send fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </Link>}
 
         </Box>
       )
@@ -303,7 +354,7 @@ const NfseList = () => {
         {ability?.can('list', 'ac-nfse-page') ? (
           <Grid item xs={12}>
             <Card>
-              <TableHeader value={value} handleFilter={handleFilter} />
+              <TableHeader toggle={(): void => { }} value={value} handleFilter={handleFilter} />
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
@@ -311,9 +362,11 @@ const NfseList = () => {
                 //@ts-ignore
                 rows={listNotaFiscal?.data}
                 columns={columns}
-                checkboxSelection
+                //checkboxSelection
                 pageSize={pageSize}
                 disableSelectionOnClick
+                disableColumnFilter
+                disableColumnMenu
                 rowsPerPageOptions={[10, 25, 50]}
                 onPageSizeChange={(newPageSize: number) => setPageSize(newPageSize)}
               />
