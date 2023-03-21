@@ -12,7 +12,7 @@ const MenuUserWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   paddingRight: theme.spacing(4.5),
   transition: 'padding .25s ease-in-out',
   minHeight: theme.mixins.toolbar.minHeight,
-  backgroundColor: "#000",
+  backgroundColor: '#000'
 }))
 
 const ImgCard = styled('img')(({ theme }) => ({
@@ -29,7 +29,7 @@ const UnidadeLogada = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: 120,
   left: 95,
-  color: "#FFF",
+  color: '#FFF',
   fontWeight: 700,
   fontSize: 13,
   zIndex: 3,
@@ -42,10 +42,10 @@ const UsuarioLogado = styled('div')(({ theme }) => ({
   left: 95,
   fontWeight: 400,
   lineHeight: 'normal',
-  color: "#ffc241",
+  color: '#ffc241',
   fontSize: 14,
   zIndex: 3,
-  textShadow: '1px 1px #000',
+  textShadow: '1px 1px #000'
 }))
 
 const UsuarioFotoPerfil = styled('img')(({ theme }) => ({
@@ -66,8 +66,8 @@ const BackgroundImage = styled('div')(({ theme }) => ({
   zIndex: 2
 }))
 
-const usuarioLogado = "Alan Rezende"
-const unidadeLogada = "PRESÍDIO CRICÚMA"
+const usuarioLogado = 'Alan Rezende'
+const unidadeLogada = 'PRESÍDIO CRICÚMA'
 
 const VerticalNavUser = () => {
   return (

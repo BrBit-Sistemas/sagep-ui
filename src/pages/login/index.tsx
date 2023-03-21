@@ -59,7 +59,7 @@ import ForgotPassword from '../forgot-password'
 const LinkStyled = styled('a')(({ theme }) => ({
   fontSize: '14px',
   fontWeight: '600',
-  color: '#ffc241',
+  color: '#124898',
   margin: '8px 0px 24px',
   opacity: '0.8',
   transition: 'opacity 0.2s ease 0s',
@@ -204,7 +204,7 @@ const LoginPage = () => {
               color: '#FFF'
             }}
           >
-            Seja bem vindo(a) ao <StyleWeb>SAGEP</StyleWeb>
+            Seja bem vindo(a) ao <StyleSagep>SAGEP</StyleSagep> <StyleWeb>WEB</StyleWeb>
             <Typography
               variant='h4'
               sx={{

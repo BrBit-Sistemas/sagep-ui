@@ -53,10 +53,11 @@ const MenuNavLink = styled(ListItemButton)<
   '&.active': {
     '&, &:hover': {
       boxShadow: theme.shadows[3],
-      backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.main} 94%)`
+      background: `${theme.palette.grey[300]} !important`,
+      color: `${theme.palette.common.black} !important`
     },
     '& .MuiTypography-root, & .MuiListItemIcon-root': {
-      color: `${theme.palette.common.white} !important`
+      color: `${theme.palette.common.black} !important`
     }
   }
 }))

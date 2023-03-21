@@ -1,3 +1,7 @@
+{
+  /*
+
+
 // ** React Imports
 import { useState } from 'react'
 
@@ -141,7 +145,7 @@ const Customizer = () => {
               Theming
             </Typography>
 
-            {/* Skin */}
+           
             <Box sx={{ mb: 4 }}>
               <Typography>Skin</Typography>
               <RadioGroup
@@ -158,7 +162,6 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            {/* Mode */}
             <Box sx={{ mb: 4 }}>
               <Typography>Mode</Typography>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -183,7 +186,7 @@ const Customizer = () => {
               </Box>
             </Box>
 
-            {/* Color Picker */}
+     
             <Box>
               <Typography sx={{ mb: 2.5 }}>Primary Color</Typography>
               <Box sx={{ display: 'flex' }}>
@@ -258,7 +261,7 @@ const Customizer = () => {
               Layout
             </Typography>
 
-            {/* Content Width */}
+   
             <Box sx={{ mb: 4 }}>
               <Typography>Content Width</Typography>
               <RadioGroup
@@ -272,7 +275,7 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            {/* AppBar */}
+
             <Box sx={{ mb: 4 }}>
               <Typography>AppBar Type</Typography>
               <RadioGroup
@@ -289,7 +292,7 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            {/* Footer */}
+ 
             <Box sx={{ mb: 4 }}>
               <Typography>Footer Type</Typography>
               <RadioGroup
@@ -304,7 +307,6 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            {/* AppBar Blur */}
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography>AppBar Blur</Typography>
               <Switch
@@ -314,7 +316,7 @@ const Customizer = () => {
               />
             </Box>
 
-            {/* RTL */}
+
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography>RTL</Typography>
               <Switch
@@ -336,7 +338,6 @@ const Customizer = () => {
               Menu
             </Typography>
 
-            {/* Menu Layout */}
             <Box sx={{ mb: layout === 'horizontal' && appBar === 'hidden' ? {} : 4 }}>
               <Typography>Menu Layout</Typography>
               <RadioGroup
@@ -356,7 +357,6 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            {/* Menu Toggle */}
             {navHidden || layout === 'horizontal' ? null : (
               <Box sx={{ mb: 4 }}>
                 <Typography>Menu Toggle</Typography>
@@ -374,7 +374,6 @@ const Customizer = () => {
               </Box>
             )}
 
-            {/* Menu Collapsed */}
             {navHidden || layout === 'horizontal' ? null : (
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography>Menu Collapsed</Typography>
@@ -386,7 +385,7 @@ const Customizer = () => {
               </Box>
             )}
 
-            {/* Menu Hidden */}
+         
             {layout === 'horizontal' && appBar === 'hidden' ? null : (
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography>Menu Hidden</Typography>
@@ -402,6 +401,17 @@ const Customizer = () => {
       </Drawer>
     </div>
   )
+}
+
+
+
+
+
+*/
+}
+
+const Customizer = () => {
+  return <div></div>
 }
 
 export default Customizer

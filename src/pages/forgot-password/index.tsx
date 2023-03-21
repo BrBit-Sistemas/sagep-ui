@@ -1,5 +1,8 @@
 // ** React Imports
 import { ReactNode, SyntheticEvent } from 'react'
+import React, { useState } from 'react'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -83,8 +86,23 @@ const ForgotPassword = () => {
   const { skin } = settings
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const [email, setEmail] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+  const router = useRouter()
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
+    const res = await fetch('/api/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    })
+    const data = await res.json()
+    if (data.error) {
+      setErrorMsg(data.error)
+    } else {
+      router.push('/reset-password')
+    }
   }
 
   const imageSource =
@@ -129,7 +147,7 @@ const ForgotPassword = () => {
                 width={35}
                 height={29}
                 version='1.1'
-                transform="rotate(180)"
+                transform='rotate(180)'
                 viewBox='0 0 30 23'
                 xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink'
@@ -199,21 +217,30 @@ const ForgotPassword = () => {
               </Typography>
             </Box>
             <Box sx={{ mb: 6 }}>
-              <TypographyStyled variant='h5'>Forgot Password? 🔒</TypographyStyled>
+              <TypographyStyled variant='h5'>Esqueceu sua senha? 🔒</TypographyStyled>
               <Typography variant='body2'>
-                Enter your email and we&prime;ll send you instructions to reset your password
+                Digite seu e-mail e enviaremos instruções para redefinir sua senha
               </Typography>
+              {errorMsg && <p>{errorMsg}</p>}
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-              <TextField autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
+              <TextField
+                autoFocus
+                type='email'
+                id='email'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                label='Email'
+                sx={{ display: 'flex', mb: 4 }}
+              />
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 5.25 }}>
-                Send reset link
+                Enviar link de redefinição de senha
               </Button>
               <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Link passHref href='/login'>
                   <LinkStyled>
                     <ChevronLeft />
-                    <span>Back to login</span>
+                    <span>Voltar</span>
                   </LinkStyled>
                 </Link>
               </Typography>
