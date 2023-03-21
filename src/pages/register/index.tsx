@@ -202,7 +202,7 @@ const Register = () => {
                 height={29}
                 version='1.1'
                 viewBox='0 0 30 23'
-                transform="rotate(180)"
+                transform='rotate(180)'
                 xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink'
               >

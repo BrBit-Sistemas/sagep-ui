@@ -37,7 +37,7 @@ const TypographyHeaderText = styled(Typography)<TypographyProps>(({ theme }) => 
   lineHeight: 'normal',
   letterSpacing: '0.21px',
   textTransform: 'uppercase',
-  color: theme.palette.text.disabled,
+  color: 'theme.palette.text.disabled',
   fontWeight: theme.typography.fontWeightMedium
 }))
 
