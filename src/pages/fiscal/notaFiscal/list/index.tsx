@@ -270,9 +270,9 @@ const NfseList = () => {
           </Link>
 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Consultar">
+            <Tooltip title="Atualizar">
               <IconButton>
-                <Note fontSize='small' />
+                <Update fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
