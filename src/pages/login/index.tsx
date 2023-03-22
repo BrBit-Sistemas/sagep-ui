@@ -59,7 +59,7 @@ import ForgotPassword from '../forgot-password'
 const LinkStyled = styled('a')(({ theme }) => ({
   fontSize: '14px',
   fontWeight: '600',
-  color: '#124898',
+  color: '#eea300',
   margin: '8px 0px 24px',
   opacity: '0.8',
   transition: 'opacity 0.2s ease 0s',
@@ -267,13 +267,18 @@ const LoginPage = () => {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row-reverse',
+                flexWrap: 'wrap',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
             >
               <Img height='100' alt='SagepWeb' src='/images/logo-completa.png' />
-
+              <img
+                src='/images/office.png'
+                alt='Ícone FlatIcon'
+                style={{ width: '65px', height: '65px', marginLeft: '10px', marginRight: '15px' }}
+              />
               <Typography variant='body2' sx={{ textAlign: 'center', margin: '12px' }}>
                 Faça login na sua conta e garanta seu acesso | 🔐
               </Typography>
