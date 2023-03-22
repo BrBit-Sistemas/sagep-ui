@@ -114,12 +114,18 @@ const ForgotPassword = () => {
   return (
     <Box className='content-right'>
       {!hidden ? (
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <ForgotPasswordIllustrationWrapper>
-            <ForgotPasswordIllustration
-              alt='forgot-password-illustration'
-              src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
-            />
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            position: 'relative',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: 0.8
+          }}
+        >
+          <ForgotPasswordIllustrationWrapper sx={{}}>
+            <ForgotPasswordIllustration alt='forgot-password-illustration' src='/images/fundo-forgot-password.png' />
           </ForgotPasswordIllustrationWrapper>
           <FooterIllustrationsV2 />
         </Box>
@@ -146,30 +152,7 @@ const ForgotPassword = () => {
                 justifyContent: 'center'
               }}
             >
-              <Img height='70' style={{ marginBottom: '10px' }} alt='SagepWeb' src='/images/logo.png' />
-              <Typography
-                variant='h4'
-                sx={{
-                  mt: 0,
-                  ml: 2,
-                  lineHeight: 1,
-                  fontWeight: 400,
-                  fontSize: '1.5rem !important',
-                  color: '#FFF'
-                }}
-              ></Typography>
-              <Typography
-                variant='h6'
-                sx={{
-                  ml: 3,
-                  lineHeight: 1,
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  fontSize: '1.5rem !important'
-                }}
-              >
-                {themeConfig.templateName}
-              </Typography>
+              <Img height='50' style={{ marginBottom: '10px' }} src='/images/logo-completa1.png' />
             </Box>
             <Box sx={{ mb: 6 }}>
               <TypographyStyled variant='h5'>Esqueceu sua senha? 🔒</TypographyStyled>
