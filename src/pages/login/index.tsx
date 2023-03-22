@@ -210,13 +210,14 @@ const LoginPage = () => {
               sx={{
                 mt: 2,
                 ml: 0,
+                letterSpacing: 1.4,
                 lineHeight: 1,
                 fontWeight: 300,
                 fontSize: '1rem !important',
                 color: '#7290bf'
               }}
             >
-              Sistema de Segurança Pública voltado à gestão do{' '}
+              Sistema de Segurança Pública voltado à gestão do {' '}
               <StyleSistemaPrisional>SISTEMA PRISIONAL</StyleSistemaPrisional>
             </Typography>
           </Typography>
@@ -277,7 +278,7 @@ const LoginPage = () => {
               <img
                 src='/images/office.png'
                 alt='Ícone FlatIcon'
-                style={{ width: '65px', height: '65px', marginLeft: '10px', marginRight: '15px' }}
+                style={{ width: '65px', height: '65px', marginLeft: '0px', marginRight: '15px' }}
               />
               <Typography variant='body2' sx={{ textAlign: 'center', margin: '12px' }}>
                 Faça login na sua conta e garanta seu acesso | 🔐
