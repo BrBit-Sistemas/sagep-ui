@@ -1,6 +1,7 @@
 // ** Mock Adapter
 import axios, { AxiosInstance } from 'axios'
 import MockAdapter from 'axios-mock-adapter';
+import { statusName } from 'src/@core/utils/enum/fiscal';
 
 const useMock = (axios: AxiosInstance) => {
   const mock = new MockAdapter(axios);
@@ -56,7 +57,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 2,
     notaFiscalStatus: {
-      name: 'Enviada',
+      name: statusName[2],
       color: 'success',
     },
     codigoChamada: '02',
@@ -75,7 +76,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 3,
     notaFiscalStatus: {
-      name: 'Cancelada',
+      name: statusName[3],
       color: 'error',
     },
     codigoChamada: '02',
@@ -94,7 +95,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 1,
     notaFiscalStatus: {
-      name: 'Não Enviada',
+      name: statusName[1],
       color: 'warning',
     },
     codigoChamada: '02',
@@ -113,7 +114,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 2,
     notaFiscalStatus: {
-      name: 'Enviada',
+      name: statusName[2],
       color: 'success',
     },
     codigoChamada: '02',
@@ -132,7 +133,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 2,
     notaFiscalStatus: {
-      name: 'Enviada',
+      name: statusName[2],
       color: 'success',
     },
     codigoChamada: '02',
@@ -151,7 +152,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 2,
     notaFiscalStatus: {
-      name: 'Enviada',
+      name: statusName[2],
       color: 'success',
     },
     codigoChamada: '02',
@@ -170,7 +171,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 2,
     notaFiscalStatus: {
-      name: 'Enviada',
+      name: statusName[2],
       color: 'success',
     },
     codigoChamada: '02',
@@ -189,7 +190,7 @@ const data: NotaFiscalRowType[] = [
     },
     notaFiscalStatusId: 2,
     notaFiscalStatus: {
-      name: 'Enviada',
+      name: statusName[2],
       color: 'success',
     },
     codigoChamada: '02',

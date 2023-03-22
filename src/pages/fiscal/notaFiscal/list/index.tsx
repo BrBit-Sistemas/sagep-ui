@@ -116,7 +116,7 @@ const defaultColumns = [
     },
   },
   {
-    flex: 0.1,
+    flex: 0.15,
     minWidth: 50,
     field: 'status',
     headerName: 'Status',
@@ -260,7 +260,7 @@ const NfseList = () => {
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'left ' as const,
+      align: 'right ' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 

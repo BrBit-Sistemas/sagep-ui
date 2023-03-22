@@ -35,4 +35,7 @@ export const status = {
 
 export const statusName = [
     '',
+    'Não enviada',
+    'Gerada com sucesso',
+    'Cancelada ou com erro'
 ]
