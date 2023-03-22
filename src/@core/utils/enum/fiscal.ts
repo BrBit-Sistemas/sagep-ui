@@ -32,3 +32,7 @@ export const status = {
     sent: 2,
     cancelled: 3
 };
+
+export const statusName = [
+    '',
+]

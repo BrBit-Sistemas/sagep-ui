@@ -10,6 +10,12 @@ import { Close } from 'mdi-material-ui';
 // ** Import Toast
 import 'react-toastify/dist/ReactToastify.css';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 interface ModalExportProps {
     openModalExport: boolean
@@ -26,6 +32,8 @@ const ModalExport = (props: ModalExportProps) => {
     <Dialog 
         open={openModalExport}
         scroll='body'
+        fullWidth
+        maxWidth='sm'
         onClose={() => setOpenModalExport(false)}
     >
         <DialogContent sx={{ px: { xs: 8, sm: 15 }, py: { xs: 8, sm: 12.5 }, position: 'relative' }}>
@@ -36,12 +44,33 @@ const ModalExport = (props: ModalExportProps) => {
           >
             <Close />
           </IconButton>
-          <Box sx={{ mb: 4, textAlign: 'center' }}>
-            <Typography variant='h5' sx={{ mb: 3 }}>
-              teste
+          <Box sx={{ mb: 8 }}>
+            <Typography variant='h5'>
+              Exportar lista de nfse's.
             </Typography>
-            <Typography variant='body2'>texto teste</Typography>
+            <Typography variant='body2'>Selecione os filtros para buscar a lista</Typography>
           </Box>
+          <Grid container spacing={3}>
+            <Grid item xs={6} sx={{ mb: 4 }}>
+              <TextField label="Competência - De" variant="outlined" type="date" fullWidth InputLabelProps={{shrink: true}}/>
+            </Grid>
+            <Grid item xs={6} sx={{ mb: 4 }}>
+              <TextField label="Competência - Até" variant="outlined" type="date" fullWidth InputLabelProps={{shrink: true}} />
+            </Grid>
+            <Grid item xs={6} sx={{ mb: 4 }}>
+              <FormControl fullWidth>
+                <InputLabel id="status-select-label">Status</InputLabel>
+                <Select
+                  labelId="status-select-label"
+                  label="Status"
+                >
+                  <MenuItem value={10}>status</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6} sx={{ mb: 4 }}>
+            </Grid>
+          </Grid>
         </DialogContent>
     </Dialog>
   )
