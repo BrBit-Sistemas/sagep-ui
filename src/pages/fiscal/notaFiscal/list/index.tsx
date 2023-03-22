@@ -260,7 +260,7 @@ const NfseList = () => {
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'right' as const,
+      align: 'left ' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
