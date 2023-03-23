@@ -52,6 +52,7 @@ import ModalExport from 'src/views/fiscal/notaFiscal/list/ModalExport'
 import ModalSync from 'src/views/fiscal/notaFiscal/list/ModalSync'
 import ModalCancel from 'src/views/fiscal/notaFiscal/list/ModalCancel'
 import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
+import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
 
 
 // **
@@ -119,7 +120,7 @@ const defaultColumns = [
     },
   },
   {
-    flex: 0.15,
+    flex: 0.1,
     minWidth: 50,
     field: 'status',
     headerName: 'Status',
@@ -208,6 +209,7 @@ const NfseList = () => {
   const [openDialogCancel, setOpenDialogCancel] = useState(false);
   const [openDialogSend, setOpenDialogSend] = useState(false);
   const [openModalExport, setOpenModalExport] = useState(false);
+  const [openModalEmail, setOpenModalEmail] = useState(false);
 
   //** popover
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -338,7 +340,7 @@ const NfseList = () => {
 
           <div>
             <Tooltip title="Enviar por E-mail">
-              <IconButton>
+              <IconButton onClick={() => setOpenModalEmail(true)}>
                 <Email fontSize='small' />
               </IconButton>
             </Tooltip>
@@ -388,6 +390,7 @@ const NfseList = () => {
     <ModalCancel openDialogCancel={openDialogCancel} setOpenDialogCancel={setOpenDialogCancel} selectedId={selectedId}/>
     <ModalSend openDialogSend={openDialogSend} setOpenDialogSend={setOpenDialogSend} selectedId={selectedId}/>
     <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
+    <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail}/>
     </>
   )
 }
