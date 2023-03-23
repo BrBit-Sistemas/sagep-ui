@@ -8,9 +8,10 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import { Close } from 'mdi-material-ui';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
 // ** Import Toast
 import { toast } from "react-toastify"; 
@@ -20,8 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
+import { NotaFiscalEmailForm } from 'src/types/fiscal/notaFiscal/notaFiscalTypes';
 
 interface ModalEmailProps {
     openModalEmail: boolean
@@ -43,14 +43,13 @@ const ModalEmail = (props: ModalEmailProps) => {
     const {
       reset,
       control,
-      setValue,
       handleSubmit,
       formState: { errors }
     } = useForm({
       mode: 'onChange',
       resolver: yupResolver(schema)
     })
-    const onSubmit = (data: {email: string}) => {
+    const onSubmit = (data: NotaFiscalEmailForm) => {
         console.log(data)
         reset()
         console.log("Enviar email nota id: "+selectedId);
@@ -66,12 +65,12 @@ const ModalEmail = (props: ModalEmailProps) => {
             scroll='body'
             fullWidth
             maxWidth='xs'
-            onClose={() => setOpenModalEmail(false)}
+            onClose={() => {reset(); setOpenModalEmail(false)}}
         >
             <DialogContent sx={{ px: { xs: 8, sm: 15 }, py: { xs: 8, sm: 4.5 }, position: 'relative' }}>
                 <IconButton
                     size='small'
-                    onClick={() => setOpenModalEmail(false)}
+                    onClick={() => {reset(); setOpenModalEmail(false)}}
                     sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
                 >
                     <Close />

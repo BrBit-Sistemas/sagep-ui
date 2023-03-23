@@ -15,10 +15,15 @@ import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import { FilePdfBox, NoteCheckOutline, Close } from 'mdi-material-ui';
 
-// ** Import Toast
-import 'react-toastify/dist/ReactToastify.css';
+// ** form Imports
+import { useForm, Controller } from 'react-hook-form'
 
 import { statusName } from 'src/@core/utils/enum/fiscal';
+import { NotaFiscalFiltersForm } from 'src/types/fiscal/notaFiscal/notaFiscalTypes';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
 
 interface ModalExportProps {
     openModalExport: boolean
@@ -30,6 +35,20 @@ const ModalExport = (props: ModalExportProps) => {
   // ** Props
   const { openModalExport, setOpenModalExport } = props
 
+  const {
+    reset,
+    control,
+    handleSubmit,
+  } = useForm()
+  const onSubmit = (data: NotaFiscalFiltersForm) => {
+      if(!data.exportType) data.exportType = "pdf"
+      console.log(data)
+      reset()
+      console.log("exportando lista inteira");
+      //enviar para o backend
+      setOpenModalExport(false);
+  }
+
   return (
     
     <Dialog 
@@ -37,12 +56,12 @@ const ModalExport = (props: ModalExportProps) => {
         scroll='body'
         fullWidth
         maxWidth='sm'
-        onClose={() => setOpenModalExport(false)}
+        onClose={() => {reset(); setOpenModalExport(false)}}
     >
         <DialogContent sx={{ px: { xs: 8, sm: 15 }, py: { xs: 8, sm: 12.5 }, position: 'relative' }}>
           <IconButton
             size='small'
-            onClick={() => setOpenModalExport(false)}
+            onClick={() => {reset(); setOpenModalExport(false)}}
             sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
           >
             <Close />
@@ -53,52 +72,177 @@ const ModalExport = (props: ModalExportProps) => {
             </Typography>
             <Typography variant='body2'>Selecione os filtros para buscar a lista</Typography>
           </Box>
-          <Grid container spacing={3} justifyContent="center">
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="Competência - De" variant="outlined" type="date" fullWidth InputLabelProps={{shrink: true}}/>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={3} justifyContent="center">
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='competencia_from'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        type="date"
+                        label='Competência - De'
+                        InputLabelProps={{shrink: true}}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='competencia_to'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        type="date"
+                        label='Competência - Até'
+                        InputLabelProps={{shrink: true}}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='notaFiscalStatusId'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <>
+                      <InputLabel id="status-select-label">Status</InputLabel>
+                      <Select
+                        labelId="status-select-label"
+                        label="Status"
+                        value={value}
+                        onChange={onChange}
+                      >
+                        {statusName.map((status, key) => 
+                          <MenuItem value={key}>{key === 0 ? 'Todos' : status}</MenuItem>
+                        )}
+                      </Select>
+                      </>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='numeroNotaFiscal'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        label='N da nota'
+                        type="number"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='codigoChamada'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        label='Cód. da chamada'
+                        type="number"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='mesChamada'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        label='Mês da chamada'
+                        type="month"
+                        InputLabelProps={{shrink: true}}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='codigoEmpresa'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        label='Cód. da empresa'
+                        type="number"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='codigoConvenio'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        value={value}
+                        onChange={onChange}
+                        label='Cód. do convênio'
+                        type="number"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <Controller
+                    name='exportType'
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <>
+                        <FormLabel id="radio-exportType-label">Tipo de arquivos</FormLabel>
+                        <RadioGroup
+                          aria-labelledby="radio-exportType-label"
+                          name="exportType"
+                          defaultValue="pdf"
+                          value={value}
+                          onChange={onChange}
+                          sx={{ flexWrap: 'nowrap', flexDirection: 'row' }}
+                        >
+                          <FormControlLabel value="pdf" control={<Radio />} label="PDF's" sx={{ width: 'auto' }} />
+                          <FormControlLabel value="xml" control={<Radio />} label="XML's" />
+                        </RadioGroup>
+                      </>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs="auto">
+                <Button size='large' type='submit' variant='contained'>
+                  Exportar lista
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="Competência - Até" variant="outlined" type="date" fullWidth InputLabelProps={{shrink: true}} />
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <FormControl fullWidth>
-                <InputLabel id="status-select-label">Status</InputLabel>
-                <Select
-                  labelId="status-select-label"
-                  label="Status"
-                >
-                  {statusName.map((status, key) => 
-                    <MenuItem value={key}>{key === 0 ? 'Todos' : status}</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="N da nota" variant="outlined" fullWidth type="number" />
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="Cód. da chamada" variant="outlined" fullWidth type="number" />
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="Mês da chamada" variant="outlined" fullWidth type="month" InputLabelProps={{shrink: true}} />
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="Cód. da empresa" variant="outlined" fullWidth type="number" />
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 2 }}>
-              <TextField label="Cód. do convênio" variant="outlined" fullWidth type="number" />
-            </Grid>
-            <Grid item xs="auto">
-              <Button sx={{ mb: 2 }} variant='contained'>
-                <FilePdfBox fontSize='small' sx={{ mr: 2 }} />Exportar PDF's
-              </Button>
-            </Grid>
-            <Grid item xs="auto">
-              <Button sx={{ mb: 2 }} variant='contained'>
-                <NoteCheckOutline fontSize='small' sx={{ mr: 2 }} />Exportar XML's
-              </Button>
-            </Grid>
-          </Grid>
+          </form>
         </DialogContent>
     </Dialog>
   )
