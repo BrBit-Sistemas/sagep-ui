@@ -49,6 +49,9 @@ import useMock from 'src/@fake-db/fiscal/notaFiscal'
 import { formatDocument } from 'src/@core/utils/format'
 import { status } from 'src/@core/utils/enum/fiscal'
 import ModalExport from 'src/views/fiscal/notaFiscal/list/ModalExport'
+import ModalSync from 'src/views/fiscal/notaFiscal/list/ModalSync'
+import ModalCancel from 'src/views/fiscal/notaFiscal/list/ModalCancel'
+import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
 
 
 // **
@@ -200,19 +203,20 @@ const defaultColumns = [
 
 // ** COMPONENT FUNCIONAL
 const NfseList = () => {
+  const [selectedId, setSelectedId] = useState('');
+  const [openDialogSync, setOpenDialogSync] = useState(false);
+  const [openDialogCancel, setOpenDialogCancel] = useState(false);
+  const [openDialogSend, setOpenDialogSend] = useState(false);
   const [openModalExport, setOpenModalExport] = useState(false);
 
   //** popover
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
@@ -222,8 +226,6 @@ const NfseList = () => {
   // ** State
   const [value, setValue] = useState<string>('')
   const [pageSize, setPageSize] = useState<number>(10)
-
-
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.notaFiscal)
@@ -260,7 +262,7 @@ const NfseList = () => {
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'right ' as const,
+      align: 'right' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
@@ -268,14 +270,14 @@ const NfseList = () => {
             <>
             <div>
               <Tooltip title="Sincronizar">
-                <IconButton>
+                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogSync(true)}}>
                   <Update fontSize='small' />
                 </IconButton>
               </Tooltip>
             </div>
             <div>
               <Tooltip title="Cancelar">
-                <IconButton>
+                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogCancel(true)}}>
                   <Cancel fontSize='small' />
                 </IconButton>
               </Tooltip>
@@ -286,7 +288,7 @@ const NfseList = () => {
           {row.notaFiscalStatusId === status.pending &&
             <div>
               <Tooltip title="Enviar NFS-e">
-                <IconButton>
+                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogSend(true)}}>
                   <Send fontSize='small' />
                 </IconButton>
               </Tooltip>
@@ -382,6 +384,9 @@ const NfseList = () => {
         )}
       </Grid>
     </Grid>
+    <ModalSync openDialogSync={openDialogSync} setOpenDialogSync={setOpenDialogSync} selectedId={selectedId}/>
+    <ModalCancel openDialogCancel={openDialogCancel} setOpenDialogCancel={setOpenDialogCancel} selectedId={selectedId}/>
+    <ModalSend openDialogSend={openDialogSend} setOpenDialogSend={setOpenDialogSend} selectedId={selectedId}/>
     <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
     </>
   )
