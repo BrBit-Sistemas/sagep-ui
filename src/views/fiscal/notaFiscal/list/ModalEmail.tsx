@@ -54,18 +54,16 @@ const ModalEmail = (props: ModalEmailProps) => {
                 </IconButton>
                 <Box sx={{ mb: 8 }}>
                     <Typography variant='h5'>
-                        Enviar nota por e-mail.
+                        Enviar nota por e-mail
                     </Typography>
                 </Box>
                 <form onSubmit={(event) => { event.preventDefault(); sendEmail() }}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} justifyContent="center">
                         <Grid item xs={12} sx={{ mb: 2 }}>
                             <TextField label="E-mail" variant="outlined" autoFocus required placeholder='exemplo@email.com' fullWidth type="email" InputLabelProps={{ shrink: true }} />
                         </Grid>
-                        <Grid item xs={4} sx={{ mb: 4 }}>
-                        </Grid>
                         <Grid item xs="auto">
-                            <Button sx={{ mb: 2 }} variant='contained' type="submit">
+                            <Button variant='contained' type="submit">
                                 Enviar
                             </Button>
                         </Grid>

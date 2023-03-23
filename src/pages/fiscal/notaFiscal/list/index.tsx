@@ -17,7 +17,6 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
-import Popover from '@mui/material/Popover'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -53,6 +52,7 @@ import ModalSync from 'src/views/fiscal/notaFiscal/list/ModalSync'
 import ModalCancel from 'src/views/fiscal/notaFiscal/list/ModalCancel'
 import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
 import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
+import ButtonsExport from 'src/views/fiscal/notaFiscal/list/ButtonsExport'
 
 
 // **
@@ -120,7 +120,7 @@ const defaultColumns = [
     },
   },
   {
-    flex: 0.1,
+    flex: 0.15,
     minWidth: 50,
     field: 'status',
     headerName: 'Status',
@@ -211,17 +211,6 @@ const NfseList = () => {
   const [openModalExport, setOpenModalExport] = useState(false);
   const [openModalEmail, setOpenModalEmail] = useState(false);
 
-  //** popover
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
   // ** Hooks
   const ability = useContext(AbilityContext)
 
@@ -304,39 +293,7 @@ const NfseList = () => {
             </Tooltip>
           </Link>
           
-          <Tooltip title="Exportar">
-            <IconButton aria-describedby={id} onClick={handleClick} size="small">
-              <Download fontSize='small' />
-            </IconButton>
-          </Tooltip>
-
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-          >
-            <Typography sx={{ p: 2 }}>
-              <div>
-                <Tooltip title="PDF">
-                  <IconButton>
-                    <FilePdfBox fontSize='small' />
-                  </IconButton>
-                </Tooltip>
-
-                <Tooltip title="XML">
-                  <IconButton>
-                    <NoteCheckOutline fontSize='small' />
-                  </IconButton>
-                </Tooltip>
-              </div>
-            </Typography>
-
-          </Popover>
+          <ButtonsExport selectedId={row.id}/>
 
           <div>
             <Tooltip title="Enviar por E-mail">
@@ -368,9 +325,9 @@ const NfseList = () => {
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
-                //rows={store.data}
                 //@ts-ignore
                 rows={listNotaFiscal?.data}
+                //rows={store.data} ***backend
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
