@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import { Close } from 'mdi-material-ui';
 
 // ** Import Toast
+import { toast } from "react-toastify"; 
 import 'react-toastify/dist/ReactToastify.css';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -19,12 +20,20 @@ import { Button } from '@mui/material';
 interface ModalEmailProps {
     openModalEmail: boolean
     setOpenModalEmail: Dispatch<SetStateAction<boolean>>
+    selectedId: string
 }
 
 const ModalEmail = (props: ModalEmailProps) => {
 
+    function sendEmail() {
+        console.log("Enviar email nota id: "+selectedId);
+        //enviar para o backend
+        setOpenModalEmail(false);
+        toast.success("Enviada com sucesso!");
+    }
+
     // ** Props
-    const { openModalEmail, setOpenModalEmail } = props
+    const { openModalEmail, setOpenModalEmail, selectedId } = props
 
     return (
 
@@ -48,7 +57,7 @@ const ModalEmail = (props: ModalEmailProps) => {
                         Enviar nota por e-mail.
                     </Typography>
                 </Box>
-                <form onSubmit={(event) => { event.preventDefault(); }}>
+                <form onSubmit={(event) => { event.preventDefault(); sendEmail() }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sx={{ mb: 2 }}>
                             <TextField label="E-mail" variant="outlined" autoFocus required placeholder='exemplo@email.com' fullWidth type="email" InputLabelProps={{ shrink: true }} />

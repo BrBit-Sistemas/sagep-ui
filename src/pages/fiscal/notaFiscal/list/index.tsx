@@ -340,7 +340,7 @@ const NfseList = () => {
 
           <div>
             <Tooltip title="Enviar por E-mail">
-              <IconButton onClick={() => setOpenModalEmail(true)}>
+              <IconButton onClick={() => {setSelectedId(row.id); setOpenModalEmail(true);}}>
                 <Email fontSize='small' />
               </IconButton>
             </Tooltip>
@@ -390,7 +390,7 @@ const NfseList = () => {
     <ModalCancel openDialogCancel={openDialogCancel} setOpenDialogCancel={setOpenDialogCancel} selectedId={selectedId}/>
     <ModalSend openDialogSend={openDialogSend} setOpenDialogSend={setOpenDialogSend} selectedId={selectedId}/>
     <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
-    <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail}/>
+    <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail} selectedId={selectedId}/>
     </>
   )
 }
