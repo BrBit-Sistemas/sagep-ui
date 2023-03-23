@@ -49,6 +49,7 @@ import useMock from 'src/@fake-db/fiscal/notaFiscal'
 import { formatDocument } from 'src/@core/utils/format'
 import { status } from 'src/@core/utils/enum/fiscal'
 import ModalExport from 'src/views/fiscal/notaFiscal/list/ModalExport'
+import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
 
 
 // **
@@ -116,7 +117,7 @@ const defaultColumns = [
     },
   },
   {
-    flex: 0.15,
+    flex: 0.1,
     minWidth: 50,
     field: 'status',
     headerName: 'Status',
@@ -201,6 +202,7 @@ const defaultColumns = [
 // ** COMPONENT FUNCIONAL
 const NfseList = () => {
   const [openModalExport, setOpenModalExport] = useState(false);
+  const [openModalEmail, setOpenModalEmail] = useState(false);
 
   //** popover
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -260,7 +262,7 @@ const NfseList = () => {
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'right ' as const,
+      align: 'left' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
@@ -336,7 +338,7 @@ const NfseList = () => {
 
           <div>
             <Tooltip title="Enviar por E-mail">
-              <IconButton>
+              <IconButton onClick={() => setOpenModalEmail(true)}>
                 <Email fontSize='small' />
               </IconButton>
             </Tooltip>
@@ -383,6 +385,7 @@ const NfseList = () => {
       </Grid>
     </Grid>
     <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
+    <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail}/>
     </>
   )
 }

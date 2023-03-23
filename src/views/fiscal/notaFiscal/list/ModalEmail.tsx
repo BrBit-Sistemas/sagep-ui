@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -12,69 +13,59 @@ import 'react-toastify/dist/ReactToastify.css';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+
+import { Button } from '@mui/material';
 
 interface ModalEmailProps {
     openModalEmail: boolean
-  setOpenModalEmail: Dispatch<SetStateAction<boolean>>
+    setOpenModalEmail: Dispatch<SetStateAction<boolean>>
 }
 
 const ModalEmail = (props: ModalEmailProps) => {
 
-  // ** Props
-  const { openModalEmail, setOpenModalEmail  } = props
+    // ** Props
+    const { openModalEmail, setOpenModalEmail } = props
 
-  return (
-    
-    <Dialog 
-        open={openModalEmail}
-        scroll='body'
-        fullWidth
-        maxWidth='sm'
-        onClose={() => setOpenModalEmail(false)}
-    >
-        <DialogContent sx={{ px: { xs: 8, sm: 15 }, py: { xs: 8, sm: 12.5 }, position: 'relative' }}>
-          <IconButton
-            size='small'
-            onClick={() => setOpenModalEmail(false)}
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-          >
-            <Close />
-          </IconButton>
-          <Box sx={{ mb: 8 }}>
-            <Typography variant='h5'>
-              Exportar lista de nfse's.
-            </Typography>
-            <Typography variant='body2'>Selecione os filtros para buscar a lista</Typography>
-          </Box>
-          <Grid container spacing={3}>
-            <Grid item xs={6} sx={{ mb: 4 }}>
-              <TextField label="Competência - De" variant="outlined" type="date" fullWidth InputLabelProps={{shrink: true}}/>
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 4 }}>
-              <TextField label="Competência - Até" variant="outlined" type="date" fullWidth InputLabelProps={{shrink: true}} />
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 4 }}>
-              <FormControl fullWidth>
-                <InputLabel id="status-select-label">Status</InputLabel>
-                <Select
-                  labelId="status-select-label"
-                  label="Status"
+    return (
+
+        <Dialog
+            open={openModalEmail}
+            scroll='body'
+            fullWidth
+            maxWidth='xs'
+            onClose={() => setOpenModalEmail(false)}
+        >
+            <DialogContent sx={{ px: { xs: 8, sm: 15 }, py: { xs: 8, sm: 4.5 }, position: 'relative' }}>
+                <IconButton
+                    size='small'
+                    onClick={() => setOpenModalEmail(false)}
+                    sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
                 >
-                  <MenuItem value={10}>status</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6} sx={{ mb: 4 }}>
-            </Grid>
-          </Grid>
-        </DialogContent>
-    </Dialog>
-  )
-  
+                    <Close />
+                </IconButton>
+                <Box sx={{ mb: 8 }}>
+                    <Typography variant='h5'>
+                        Enviar nota por e-mail.
+                    </Typography>
+                </Box>
+                <form onSubmit={(event) => { event.preventDefault(); }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sx={{ mb: 2 }}>
+                            <TextField label="E-mail" variant="outlined" autoFocus required placeholder='exemplo@email.com' fullWidth type="email" InputLabelProps={{ shrink: true }} />
+                        </Grid>
+                        <Grid item xs={4} sx={{ mb: 4 }}>
+                        </Grid>
+                        <Grid item xs="auto">
+                            <Button sx={{ mb: 2 }} variant='contained' type="submit">
+                                Enviar
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+
 }
 
 export default ModalEmail
