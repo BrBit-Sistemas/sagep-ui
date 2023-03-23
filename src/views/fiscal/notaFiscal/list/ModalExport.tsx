@@ -36,7 +36,7 @@ const ModalExport = (props: ModalExportProps) => {
   const { openModalExport, setOpenModalExport } = props
 
   const {
-    reset,
+    reset, 
     control,
     handleSubmit,
   } = useForm()
