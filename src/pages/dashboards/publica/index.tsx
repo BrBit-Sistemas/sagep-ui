@@ -17,16 +17,18 @@ const DashboardPublica = () => {
         <Grid item xs={12} md={12} sx={{ order: 0, alignSelf: 'flex-end' }}>
           <BoasVindas />
         </Grid>
-      </Grid>
-      <Grid item xs={12} md={6} lg={6} sx={{ order: 0 }} pt={7}>
-        <Grid container spacing={6}>
-          <Grid item xs={6}>
-            <UsuarioContainerChartLeft />
+        <Grid item xs={12} md={6} lg={6} sx={{ order: 0 }}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <UsuarioContainerChartLeft />
+            </Grid>
           </Grid>
         </Grid>
-        <Grid container spacing={6}>
-          <Grid item xs={6}>
-            <UsuarioContainerChartRight />
+        <Grid item xs={12} md={6} lg={6} sx={{ order: 0 }}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <UsuarioContainerChartRight />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
