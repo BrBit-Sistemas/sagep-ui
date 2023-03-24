@@ -1,9 +1,9 @@
 import env from '../../../environment';
 
-const apiNotaFiscal = `${env.API_URL}/fiscal/notaFiscal`
+const apiNotaFiscal = `${env.API_URL}/nfse`
 
 export default {
   listAsync: `${apiNotaFiscal}/list`,
-  viewAsync: `${apiNotaFiscal}/view`,
+  viewAsync: `${apiNotaFiscal}/listSelected`,
   storageTokenKeyName: 'accessToken'
 }
