@@ -20,9 +20,9 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
 
 // Styled component for the image
 const Img = styled('img')(({ theme }) => ({
-  right: 13,
+  right: 30,
   bottom: 0,
-  height: 185,
+  height: 230,
   position: 'absolute',
   [theme.breakpoints.down('sm')]: {
     height: 165,
@@ -39,16 +39,15 @@ const BoasVindas = () => {
         <Grid container spacing={6}>
           <Grid item xs={12} sm={12}>
             <Typography variant='h5' sx={{ mb: 6.5 }}>
-              {t("Welcome to the infographics and indicators of")}{' '}
+              {'Bem-vindo aos infográficos e indicadores '}{' '}
               <Box component='span' sx={{ fontWeight: 'bold' }}>
-                 {t("Public Area")}
+                {'Gerais'}
               </Box>
-              📈
             </Typography>
-            <Typography variant='body2'>{t("Here you can check the active users on the platform")} 👤.</Typography>
+            <Typography variant='body2'>{t('Here you can check the active users on the platform')}.</Typography>
           </Grid>
           <StyledGrid item xs={12} sm={6}>
-            <Img alt='Congratulations John' src='/images/cards/illustration-john-2.png' />
+            <Img src='/images/cards/dashboard.png' />
           </StyledGrid>
         </Grid>
       </CardContent>
