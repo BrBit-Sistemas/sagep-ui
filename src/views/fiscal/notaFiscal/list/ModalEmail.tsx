@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useRef, useEffect } from 'react';
 import React from 'react';
 
 // ** MUI Imports
@@ -16,6 +16,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
 import { Button } from '@mui/material';
+import input from 'src/@core/theme/overrides/input';
 
 interface ModalEmailProps {
     openModalEmail: boolean
@@ -35,6 +36,16 @@ const ModalEmail = (props: ModalEmailProps) => {
     // ** Props
     const { openModalEmail, setOpenModalEmail, selectedId } = props
 
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    useEffect(() => {
+        if (openModalEmail) {
+            setTimeout(() => {
+                inputRef.current?.focus()
+            }, 0)
+        }
+    }, [openModalEmail]) // Adicione openModalEmail como dependência
+      
     return (
 
         <Dialog
@@ -42,12 +53,12 @@ const ModalEmail = (props: ModalEmailProps) => {
             scroll='body'
             fullWidth
             maxWidth='xs'
-            onClose={() => setOpenModalEmail(false)}
+            onClose={() => setOpenModalEmail(false) }
         >
             <DialogContent sx={{ px: { xs: 8, sm: 15 }, py: { xs: 8, sm: 4.5 }, position: 'relative' }}>
                 <IconButton
                     size='small'
-                    onClick={() => setOpenModalEmail(false)}
+                    onClick={() => setOpenModalEmail(false) }
                     sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
                 >
                     <Close />
@@ -60,7 +71,7 @@ const ModalEmail = (props: ModalEmailProps) => {
                 <form onSubmit={(event) => { event.preventDefault(); sendEmail() }}>
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item xs={12} sx={{ mb: 2 }}>
-                            <TextField label="E-mail" variant="outlined" autoFocus required placeholder='exemplo@email.com' fullWidth type="email" InputLabelProps={{ shrink: true }} />
+                            <TextField inputRef={inputRef} label="E-mail" variant="outlined" required placeholder='exemplo@email.com' fullWidth type="email" InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs="auto">
                             <Button variant='contained' type="submit">
@@ -72,7 +83,6 @@ const ModalEmail = (props: ModalEmailProps) => {
             </DialogContent>
         </Dialog>
     )
-
 }
 
-export default ModalEmail
+export default ModalEmail;
