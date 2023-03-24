@@ -85,3 +85,19 @@ export type NotaFiscalRowType = {
   competencia: Date | string
   valorServicos: string
 }
+
+export type NotaFiscalEmailForm = {
+  email: string
+}
+
+export type NotaFiscalFiltersForm = {
+  exportType: string
+  competencia_from?: string
+  competencia_to?: string
+  notaFiscalStatusId?: number
+  numeroNotaFiscal?: number
+  codigoChamada?: string
+  mesChamada?: string
+  codigoEmpresa?: number
+  codigoConvenio?: number
+}

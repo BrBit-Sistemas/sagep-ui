@@ -17,7 +17,6 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
-import Popover from '@mui/material/Popover'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -49,6 +48,11 @@ import useMock from 'src/@fake-db/fiscal/notaFiscal'
 import { formatDocument } from 'src/@core/utils/format'
 import { status } from 'src/@core/utils/enum/fiscal'
 import ModalExport from 'src/views/fiscal/notaFiscal/list/ModalExport'
+import ModalSync from 'src/views/fiscal/notaFiscal/list/ModalSync'
+import ModalCancel from 'src/views/fiscal/notaFiscal/list/ModalCancel'
+import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
+import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
+import ButtonsExport from 'src/views/fiscal/notaFiscal/list/ButtonsExport'
 
 
 // **
@@ -200,21 +204,12 @@ const defaultColumns = [
 
 // ** COMPONENT FUNCIONAL
 const NfseList = () => {
+  const [selectedId, setSelectedId] = useState('');
+  const [openDialogSync, setOpenDialogSync] = useState(false);
+  const [openDialogCancel, setOpenDialogCancel] = useState(false);
+  const [openDialogSend, setOpenDialogSend] = useState(false);
   const [openModalExport, setOpenModalExport] = useState(false);
-
-  //** popover
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const [openModalEmail, setOpenModalEmail] = useState(false);
 
   // ** Hooks
   const ability = useContext(AbilityContext)
@@ -222,8 +217,6 @@ const NfseList = () => {
   // ** State
   const [value, setValue] = useState<string>('')
   const [pageSize, setPageSize] = useState<number>(10)
-
-
 
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.notaFiscal)
@@ -260,7 +253,7 @@ const NfseList = () => {
       field: 'actions',
       headerName: 'Ações',
       headerAlign: 'center' as const,
-      align: 'right ' as const,
+      align: 'right' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
@@ -268,14 +261,14 @@ const NfseList = () => {
             <>
             <div>
               <Tooltip title="Sincronizar">
-                <IconButton>
+                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogSync(true)}}>
                   <Update fontSize='small' />
                 </IconButton>
               </Tooltip>
             </div>
             <div>
               <Tooltip title="Cancelar">
-                <IconButton>
+                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogCancel(true)}}>
                   <Cancel fontSize='small' />
                 </IconButton>
               </Tooltip>
@@ -286,7 +279,7 @@ const NfseList = () => {
           {row.notaFiscalStatusId === status.pending &&
             <div>
               <Tooltip title="Enviar NFS-e">
-                <IconButton>
+                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogSend(true)}}>
                   <Send fontSize='small' />
                 </IconButton>
               </Tooltip>
@@ -300,43 +293,11 @@ const NfseList = () => {
             </Tooltip>
           </Link>
           
-          <Tooltip title="Exportar">
-            <IconButton aria-describedby={id} onClick={handleClick} size="small">
-              <Download fontSize='small' />
-            </IconButton>
-          </Tooltip>
-
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-          >
-            <Typography sx={{ p: 2 }}>
-              <div>
-                <Tooltip title="PDF">
-                  <IconButton>
-                    <FilePdfBox fontSize='small' />
-                  </IconButton>
-                </Tooltip>
-
-                <Tooltip title="XML">
-                  <IconButton>
-                    <NoteCheckOutline fontSize='small' />
-                  </IconButton>
-                </Tooltip>
-              </div>
-            </Typography>
-
-          </Popover>
+          <ButtonsExport selectedId={row.id}/>
 
           <div>
             <Tooltip title="Enviar por E-mail">
-              <IconButton>
+              <IconButton onClick={() => {setSelectedId(row.id); setOpenModalEmail(true);}}>
                 <Email fontSize='small' />
               </IconButton>
             </Tooltip>
@@ -364,9 +325,9 @@ const NfseList = () => {
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
-                //rows={store.data}
                 //@ts-ignore
                 rows={listNotaFiscal?.data}
+                //rows={store.data} ***backend
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
@@ -382,7 +343,11 @@ const NfseList = () => {
         )}
       </Grid>
     </Grid>
+    <ModalSync openDialogSync={openDialogSync} setOpenDialogSync={setOpenDialogSync} selectedId={selectedId}/>
+    <ModalCancel openDialogCancel={openDialogCancel} setOpenDialogCancel={setOpenDialogCancel} selectedId={selectedId}/>
+    <ModalSend openDialogSend={openDialogSend} setOpenDialogSend={setOpenDialogSend} selectedId={selectedId}/>
     <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
+    <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail} selectedId={selectedId}/>
     </>
   )
 }
