@@ -27,7 +27,6 @@ interface Redux {
 // ** Fetch Nfses
 export const fetchData = createAsyncThunk('appNfses/fetchData', async (params: DataParams) => {
   const storedToken = window.localStorage.getItem(nfseApiService.storageTokenKeyName)!
-  //const response = await mock
   const response = await axios
                             .get(nfseApiService.listAsync, {
                                   headers: {
