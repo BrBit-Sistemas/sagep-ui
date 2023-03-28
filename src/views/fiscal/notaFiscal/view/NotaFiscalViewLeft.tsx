@@ -18,11 +18,11 @@ import CustomChip from 'src/@core/components/mui/chip'
 import { formatDocument, formatMoney, formatPhone } from 'src/@core/utils/format'
 
 interface Props {
-  id: string
+  notaFiscalId: string
 }
 
-const NotaFiscalViewPage = ({ id }: Props) => {
-  debugger
+const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
+  //debugger
   // ** Hooks
   const ability = useContext(AbilityContext)
   
@@ -87,20 +87,20 @@ const NotaFiscalViewPage = ({ id }: Props) => {
       notaFiscalId: '1'
     }]
   };
-  if(id === '2') {
+  if(notaFiscalId === '2') {
     notaFiscalData.notaFiscalStatusId = 3
     notaFiscalData.notaFiscalStatus.name = 'Cancelada'
     notaFiscalData.notaFiscalStatus.color = 'error'
     notaFiscalData.codigoCancelamento = '2'
   }
-  if(id === '3') {
+  if(notaFiscalId === '3') {
     notaFiscalData.notaFiscalStatusId = 1
     notaFiscalData.notaFiscalStatus.name = 'Não enviada'
     notaFiscalData.notaFiscalStatus.color = 'warning'
     delete notaFiscalData.numeroNotaFiscal;
   }
 
-  if (id) {
+  /*if (id) {
     return (    
       <Grid container spacing={6}>
         {ability?.can('read', 'ac-cliente-page') ? (
@@ -118,7 +118,7 @@ const NotaFiscalViewPage = ({ id }: Props) => {
     )
   } else {
     return null
-  }
+  }*/
 
   if (notaFiscalId) {
     return (    

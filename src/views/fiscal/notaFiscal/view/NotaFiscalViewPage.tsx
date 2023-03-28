@@ -8,8 +8,8 @@ import Grid from '@mui/material/Grid'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Demo Components Imports
-import NotaFiscalViewLeft from 'src/views/fiscal/notaFiscal/view/NotaFiscalViewLeft'
-import NotaFiscalViewRight from 'src/views/fiscal/notaFiscal/view/NotaFiscalViewRight'
+import NotaFiscalViewLeft from './NotaFiscalViewLeft'
+import NotaFiscalViewRight from './NotaFiscalViewRight'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -28,13 +28,13 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
       <Grid container spacing={6}>
         {ability?.can('read', 'ac-nfse-page') ? (
           <Grid item xs={12} md={5} lg={4}>
-            <NotaFiscalViewLeft id={notaFiscalId} />
+            <NotaFiscalViewLeft notaFiscalId={notaFiscalId} />
           </Grid>
         ) : <>{t("You do not have permission to view this resource.")}</>}
 
         {ability?.can('read', 'ac-nfse-page') ? (
           <Grid item xs={12} md={7} lg={8}>
-            <NotaFiscalViewRight id={notaFiscalId} />
+            <NotaFiscalViewRight notaFiscalId={notaFiscalId} />
           </Grid>
         ) : <>{t("You do not have permission to view this resource.")}</>}
       </Grid>

@@ -2,7 +2,6 @@
 import { useContext } from 'react'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 
 // ** Context Imports
@@ -11,17 +10,16 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { defaultMessages } from 'src/@core/utils/enum/messages'
 import { defaultAnswer, exigibilidadeISS, codigoCancelamento, status, responsavelRetencao, defaultYesNo } from 'src/@core/utils/enum/fiscal'
 import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
-import { Box } from 'mdi-material-ui'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import CustomChip from 'src/@core/components/mui/chip'
 import { formatDocument, formatMoney, formatPhone } from 'src/@core/utils/format'
 
 interface Props {
-  id: string
+  notaFiscalId: string
 }
 
-const NotaFiscalViewPage = ({ id }: Props) => {
+const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
   // ** Hooks
   const ability = useContext(AbilityContext)
   
@@ -99,7 +97,7 @@ const NotaFiscalViewPage = ({ id }: Props) => {
     delete notaFiscalData.numeroNotaFiscal;
   }
 
-  if (notaFiscalId) {
+  /*if (notaFiscalId) {
     return (    
       <Grid container spacing={6}>
         {ability?.can('read', 'ac-cliente-page') ? (
@@ -117,7 +115,7 @@ const NotaFiscalViewPage = ({ id }: Props) => {
     )
   } else {
     return null
-  }
+  }*/
 
   if (notaFiscalId) {
     return (    
