@@ -37,28 +37,11 @@ import { useTranslation } from 'react-i18next'
 import { AppDispatch, RootState } from 'src/store'
 import { useDispatch, useSelector } from 'react-redux'
 
-interface ColorsType {
-  [key: string]: ThemeColor
-}
-
-const statusColors: ColorsType = {
-  ACTIVE: 'success',
-  INACTIVE: 'error'
-}
-
 interface Props {
-  id: string | string[] | undefined
+  notaFiscalId: string
 }
 
-const formatCnpj = (cnpj: string) => {
-  return cnpj?.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
-}
-
-const formatCpf = (cpf: string) => {
-  return cpf?.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
-}
-
-const ClienteViewLeft = ({id}: Props) => {
+const NotaFiscalViewLeft = ({notaFiscalId}: Props) => {
   // ** Hooks
   const { t } = useTranslation()
 
@@ -207,57 +190,40 @@ const ClienteViewLeft = ({id}: Props) => {
                 }}
               />
             </CardContent>
-
             <CardContent>
               <Typography variant='h6'>{t("Details")}</Typography>
               <Divider />
               <Box sx={{ pt: 2, pb: 2 }}>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Person type")}:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Número:</Typography>
+                  <Typography variant='body2'>{store?.numeroNotaFiscal}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Código camada:</Typography>
+                  <Typography variant='body2'>{store?.codigoChamada}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Mês camada:</Typography>
+                  <Typography variant='body2'>{store?.mesChamada}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Código empresa:</Typography>
+                  <Typography variant='body2'>{store?.codigoEmpresa}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Código convênio:</Typography>
+                  <Typography variant='body2'>{store?.codigoConvenio}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Competência:</Typography>
                   <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Trading name")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Phone number")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("E-mail")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Valor serviços:</Typography>
+                  <Typography variant='body2'>{store?.valorServicos}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Note")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("City code")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Street")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Number")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Address complement")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("State")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("City")}:</Typography>
-                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Zip code")}:</Typography>
                   <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
@@ -266,7 +232,7 @@ const ClienteViewLeft = ({id}: Props) => {
                     skin='light'
                     size='small'
                     label={`${t(store?.notaFiscalStatus.name)}`}
-                    color={statusColors[store?.notaFiscalStatus.name]}
+                    color={store?.notaFiscalStatus.color}
                     sx={{
                       height: 20,
                       fontSize: '0.75rem',
@@ -287,8 +253,8 @@ const ClienteViewLeft = ({id}: Props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Alert severity='error'>
-            {t("Client with id")}: {id} {t("Does not exist. Please check the client listing")}:{' '}
-            <Link href='/pages/negocios/comercial/cliente/list'>{t("Clients listing")}</Link>
+            "Nota fiscal com id:" {notaFiscalId} Não existe. Por favor verifique a listagem de notas fiscais : {' '}
+            <Link href='/fiscal/notaFiscal/list'>Lista notas fiscais</Link>
           </Alert>
         </Grid>
       </Grid>
@@ -296,9 +262,9 @@ const ClienteViewLeft = ({id}: Props) => {
   }
 }
 
-ClienteViewLeft.acl = {
+NotaFiscalViewLeft.acl = {
   action: 'read',
   subject: 'ac-cliente-page'
 }
 
-export default ClienteViewLeft
+export default NotaFiscalViewLeft
