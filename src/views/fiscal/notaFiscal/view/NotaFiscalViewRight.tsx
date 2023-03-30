@@ -97,26 +97,6 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
     delete notaFiscalData.numeroNotaFiscal;
   }
 
-  /*if (notaFiscalId) {
-    return (    
-      <Grid container spacing={6}>
-        {ability?.can('read', 'ac-cliente-page') ? (
-          <Grid item xs={12} md={5} lg={4}>
-            <NotaFiscalViewLeft id={clienteId} />
-          </Grid>
-        ) : <>{t("You do not have permission to view this resource.")}</>}
-
-        {ability?.can('read', 'ac-cliente-page') ? (
-          <Grid item xs={12} md={7} lg={8}>
-            <NotaFiscalViewRight id={clienteId} />
-          </Grid>
-        ) : <>{t("You do not have permission to view this resource.")}</>}
-      </Grid>
-    )
-  } else {
-    return null
-  }*/
-
   if (notaFiscalId) {
     return (    
       <>

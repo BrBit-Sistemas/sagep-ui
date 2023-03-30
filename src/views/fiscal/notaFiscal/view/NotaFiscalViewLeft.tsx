@@ -1,32 +1,109 @@
 // ** React Imports
-import { useContext } from 'react'
+import { useEffect } from 'react'
 
 // ** MUI Imports
+import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-
-// ** Context Imports
-import { AbilityContext } from 'src/layouts/components/acl/Can'
-
-import { defaultMessages } from 'src/@core/utils/enum/messages'
-import { defaultAnswer, exigibilidadeISS, codigoCancelamento, status, responsavelRetencao, defaultYesNo } from 'src/@core/utils/enum/fiscal'
-import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
-import { Box } from 'mdi-material-ui'
-import CardContent from '@mui/material/CardContent'
+import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-import CustomChip from 'src/@core/components/mui/chip'
-import { formatDocument, formatMoney, formatPhone } from 'src/@core/utils/format'
+import CardContent from '@mui/material/CardContent'
+import Alert from '@mui/material/Alert'
 
-interface Props {
-  notaFiscalId: string
+// ** Next Import
+import Link from 'next/link'
+
+// ** Third Party Imports
+import { useForm } from 'react-hook-form'
+
+// ** Custom Components
+import CustomChip from 'src/@core/components/mui/chip'
+import CustomAvatar from 'src/@core/components/mui/avatar'
+
+// ** Types
+import { ThemeColor } from 'src/@core/layouts/types'
+import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
+
+// ** Utils Import
+import { getInitials } from 'src/@core/utils/get-initials'
+
+// Import Translate
+import { useTranslation } from 'react-i18next'
+
+// ** Actions Imports
+// import { fetchData } from 'src/store/negocios/comercial/cliente/view'
+
+// ** Store Imports
+import { AppDispatch, RootState } from 'src/store'
+import { useDispatch, useSelector } from 'react-redux'
+
+interface ColorsType {
+  [key: string]: ThemeColor
 }
 
-const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
-  //debugger
+const statusColors: ColorsType = {
+  ACTIVE: 'success',
+  INACTIVE: 'error'
+}
+
+interface Props {
+  id: string | string[] | undefined
+}
+
+const formatCnpj = (cnpj: string) => {
+  return cnpj?.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
+}
+
+const formatCpf = (cpf: string) => {
+  return cpf?.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
+}
+
+const ClienteViewLeft = ({id}: Props) => {
   // ** Hooks
-  const ability = useContext(AbilityContext)
-  
-  const notaFiscalData : NotaFiscalType = {
+  const { t } = useTranslation()
+
+  // ** States
+  const dispatch = useDispatch<AppDispatch>()
+  // const store = useSelector((state: RootState) => state.clienteView)
+
+  const {
+    setValue
+  } = useForm({
+    mode: 'onChange'
+  })
+
+  // useEffect(() => {
+  //   dispatch(
+  //     fetchData({
+  //       id: id
+  //     })
+  //   )
+  // }, [dispatch, id])
+
+  // useEffect(() => {
+  //   if(store)
+  //   {
+  //     setValue('id', store?.id)
+  //     setValue('nomeFantasia', store?.nomeFantasia)
+  //     setValue('razaoSocial', store?.razaoSocial)
+  //     setValue('inscricaoEstadual', store?.inscricaoEstadual)
+  //     setValue('cnpj', store?.cnpj)
+  //     setValue('telefonePrincipal', store?.telefonePrincipal)
+  //     setValue('emailPrincipal', store?.emailPrincipal)
+  //     setValue('dataFundacao', store?.dataFundacao)
+  //     setValue('cep', store?.cep)
+  //     setValue('rua', store?.rua)
+  //     setValue('numero', store?.numero)
+  //     setValue('complemento', store?.complemento)
+  //     setValue('estado', store?.estado)
+  //     setValue('cidade', store?.cidade)
+  //     setValue('codigoMunicipio', store?.codigoMunicipio)
+  //     setValue('observacao', store?.observacao)
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [store])
+
+  const store : NotaFiscalType = {
     id: '1',
     numeroNotaFiscal: 123,
     tenantId: '2',
@@ -86,135 +163,142 @@ const NotaFiscalViewPage = ({ notaFiscalId }: Props) => {
       numeroProcesso: '0023233',
       notaFiscalId: '1'
     }]
-  };
-  if(notaFiscalId === '2') {
-    notaFiscalData.notaFiscalStatusId = 3
-    notaFiscalData.notaFiscalStatus.name = 'Cancelada'
-    notaFiscalData.notaFiscalStatus.color = 'error'
-    notaFiscalData.codigoCancelamento = '2'
-  }
-  if(notaFiscalId === '3') {
-    notaFiscalData.notaFiscalStatusId = 1
-    notaFiscalData.notaFiscalStatus.name = 'Não enviada'
-    notaFiscalData.notaFiscalStatus.color = 'warning'
-    delete notaFiscalData.numeroNotaFiscal;
   }
 
-  /*if (id) {
-    return (    
+  const renderClienteAvatar = () => {
+    if (store) {
+      return (
+        <CustomAvatar
+          skin='light'
+          variant='rounded'
+          color={'primary' as ThemeColor}
+          sx={{ width: 120, height: 120, fontWeight: 600, mb: 4, fontSize: '3rem' }}
+        >
+          {getInitials(store?.fornecedor.razaoSocial || "CP")}
+        </CustomAvatar>
+      )
+    } else {
+      return null
+    }
+  }
+
+  if (store) {
+    return (
       <Grid container spacing={6}>
-        {ability?.can('read', 'ac-cliente-page') ? (
-          <Grid item xs={12} md={5} lg={4}>
-            <NotaFiscalViewLeft id={clienteId} />
-          </Grid>
-        ) : <>{t("You do not have permission to view this resource.")}</>}
-
-        {ability?.can('read', 'ac-cliente-page') ? (
-          <Grid item xs={12} md={7} lg={8}>
-            <NotaFiscalViewRight id={clienteId} />
-          </Grid>
-        ) : <>{t("You do not have permission to view this resource.")}</>}
-      </Grid>
-    )
-  } else {
-    return null
-  }*/
-
-  if (notaFiscalId) {
-    return (    
-      <>
-        {ability?.can('read', 'ac-nfse-page') ? (
-          <Card className='px-3'>
-            <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              N da nota: {notaFiscalData.numeroNotaFiscal || 's/n'}
+        <Grid item xs={12}>
+          <Card>
+            <CardContent sx={{ pt: 15, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              {renderClienteAvatar()}
+              <Typography variant='h6' sx={{ mb: 2 }}>
+                {store?.fornecedor.razaoSocial}
+              </Typography>
               <CustomChip
                 skin='light'
                 size='small'
-                label={notaFiscalData.notaFiscalStatus.name}
-                color={notaFiscalData.notaFiscalStatus.color}
-                sx={{ textTransform: 'capitalize', marginLeft: '10px' }}
+                label={store?.fornecedor.razaoSocial || store?.fornecedor.razaoSocial}
+                color='primary'
+                sx={{
+                  height: 20,
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  borderRadius: '5px',
+                  textTransform: 'capitalize',
+                  '& .MuiChip-label': { mt: -0.25 }
+                }}
               />
-            </Typography>
-              {notaFiscalData.notaFiscalStatusId === status.cancelled && !!notaFiscalData.codigoCancelamento && (
-              <Typography variant="body2" color="text.secondary">
-                Código de cancelamento: {codigoCancelamento[notaFiscalData.codigoCancelamento]}
-              </Typography>
-              )}
-            <br/>
-            <Typography variant="body2" color="text.secondary">
-              <b>Dados do Fornecedor</b>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Nome / Razão social: {notaFiscalData.fornecedor.razaoSocial}<br/>
-              CPF / CNPJ: {formatDocument(notaFiscalData.fornecedor.cpf || notaFiscalData.fornecedor.cnpj)}<br/>
-              Inscrição municipal: {notaFiscalData.fornecedor.inscricaoMunicipal}<br/>
-              Endereço: {notaFiscalData.fornecedor.endereco+' n '+notaFiscalData.fornecedor.numero}
-              {!!notaFiscalData.fornecedor.complemento && ' - '+notaFiscalData.fornecedor.complemento}. 
-              Bairro {notaFiscalData.fornecedor.bairro}, município {notaFiscalData.fornecedor.codigoMunicipio} / {notaFiscalData.fornecedor.uf}. 
-              CEP {notaFiscalData.fornecedor.cep}<br/>
-              Telefone: {formatPhone(notaFiscalData.fornecedor.telefone)}<br/>
-              E-mail: {notaFiscalData.fornecedor.email}
-            </Typography>
-            <br/>
-            <Typography variant="body2" color="text.secondary">
-              <b>Dados da Nota Fiscal</b>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Chamada: cód. {notaFiscalData.codigoChamada} / mês {notaFiscalData.mesChamada}<br/>
-              Convênio: empresa {notaFiscalData.codigoEmpresa} / convênio {notaFiscalData.codigoConvenio}<br/>
-              Competência: {notaFiscalData.competencia}<br/>
-              Informações complementares: {notaFiscalData.informacoesComplementares}
-            </Typography>
-            <br/>
-            <Typography variant="body2" color="text.secondary">
-              <b>Dados do Serviço</b>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Valor total Serviços: {notaFiscalData.valorServicos}
-              {notaFiscalData.servico.map(servico => (
-                <div key={servico.id}>
-                  <br/>
-                  Serviço: {servico.itemListaServico}<br/>
-                  Discriminação: {servico.discriminacao}<br/>
-                  Valor serviço: R$ {formatMoney(servico.valorServicos.toString())}<br/>
-                  Valor deduções: R$ {formatMoney(servico.valorDeducoes?.toString())}<br/>
-                  Valor PIS: R$ {formatMoney(servico.valorPis?.toString())}<br/>
-                  Valor COFINS: R$ {formatMoney(servico.valorCofins?.toString())}<br/>
-                  Valor INSS: R$ {formatMoney(servico.valorInss?.toString())}<br/>
-                  Valor IR: R$ {formatMoney(servico.valorIr?.toString())}<br/>
-                  Valor CSLL: R$ {formatMoney(servico.valorCsll?.toString())}<br/>
-                  Outras retenções: R$ {formatMoney(servico.outrasRetencoes?.toString())}<br/>
-                  Valor total dos tributos: R$ {formatMoney(servico.valorTotalTributos?.toString())}<br/>
-                  Valor ISS: R$ {formatMoney(servico.valorIss?.toString())}<br/>
-                  Alíquota: {servico.aliquota || '0'}%<br/>
-                  Desconto incondicionado: R$ {formatMoney(servico.descontoIncondicionado?.toString())}<br/>
-                  Desconto condicionado: R$ {formatMoney(servico.descontoCondicionado?.toString())}<br/>
-                  ISS retido? {defaultAnswer[servico.isIssRetido]}{servico.isIssRetido === defaultYesNo.yes && !!servico.responsavelRetencao && ' Responsável retenção: '+responsavelRetencao[servico.responsavelRetencao]}<br/>
-                  Código CNAE: {servico.codigoCnae}<br/>
-                  Código tributação do município: {servico.codigoTributacaoMunicipio}<br/>
-                  Código NBS: {servico.codigoNbs}<br/>
-                  Código do município: {servico.codigoMunicipio}<br/>
-                  Município de incidência: {servico.municipioIncidencia}<br/>
-                  Exigibilidade ISS: {exigibilidadeISS[servico.exigibilidadeISS]}<br/>
-                  Identificação de não exigibilidade: {servico.identificacaoNaoExigibilidade}<br/>
-                  Número processo: {servico.numeroProcesso}<br/>
-                </div>
-              ))}
-            </Typography>
-          </CardContent>
+            </CardContent>
+
+            <CardContent>
+              <Typography variant='h6'>{t("Details")}</Typography>
+              <Divider />
+              <Box sx={{ pt: 2, pb: 2 }}>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Person type")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Trading name")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Phone number")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("E-mail")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Note")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("City code")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Street")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Number")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Address complement")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("State")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("City")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>{t("Zip code")}:</Typography>
+                  <Typography variant='body2'>{store?.informacoesComplementares}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Status:</Typography>
+                  <CustomChip
+                    skin='light'
+                    size='small'
+                    label={`${t(store?.notaFiscalStatus.name)}`}
+                    color={statusColors[store?.notaFiscalStatus.name]}
+                    sx={{
+                      height: 20,
+                      fontSize: '0.75rem',
+                      fontWeight: 500,
+                      borderRadius: '5px',
+                      textTransform: 'capitalize'
+                    }}
+                  />
+                </Box>
+              </Box>
+            </CardContent>
           </Card>
-        ) : <>{defaultMessages.permission}</>}
-      </>
+        </Grid>
+      </Grid>
     )
   } else {
-    return null
+    return (
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <Alert severity='error'>
+            {t("Client with id")}: {id} {t("Does not exist. Please check the client listing")}:{' '}
+            <Link href='/pages/negocios/comercial/cliente/list'>{t("Clients listing")}</Link>
+          </Alert>
+        </Grid>
+      </Grid>
+    )
   }
 }
 
-NotaFiscalViewPage.acl = {
+ClienteViewLeft.acl = {
   action: 'read',
-  subject: 'ac-nfse-page'
+  subject: 'ac-cliente-page'
 }
 
-export default NotaFiscalViewPage
+export default ClienteViewLeft
