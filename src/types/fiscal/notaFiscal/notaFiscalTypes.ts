@@ -69,7 +69,7 @@ export type NotaFiscalType = {
     informacoesComplementares: string
     codigoCancelamento?: string
     valorServicos: string
-    servico: Array<ServicoType>
+    notaFiscalServicos: Array<ServicoType>
 }
 
 export type NotaFiscalRowType = {

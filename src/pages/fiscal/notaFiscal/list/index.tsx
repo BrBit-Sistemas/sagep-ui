@@ -1,9 +1,5 @@
-// ** IMPORTS
-
 // ** React Imports
 import { useContext, useState, useEffect, useCallback } from 'react'
-
-
 
 // ** Next Import
 import Link from 'next/link'
@@ -53,13 +49,6 @@ import ModalCancel from 'src/views/fiscal/notaFiscal/list/ModalCancel'
 import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
 import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
 import ButtonsExport from 'src/views/fiscal/notaFiscal/list/ButtonsExport'
-
-
-// **
-
-
-
-
 
 // ** INTERFACES
 
