@@ -50,11 +50,6 @@ import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
 import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
 import ButtonsExport from 'src/views/fiscal/notaFiscal/list/ButtonsExport'
 
-<<<<<<< HEAD
-// **
-
-=======
->>>>>>> 441da354ab832eac2d8fa4e6e6ac1a756b54f5b0
 // ** INTERFACES
 
 interface CellType {
