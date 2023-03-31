@@ -4,7 +4,6 @@ import Link from '@mui/material/Link'
 import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
-
 const FooterContent = () => {
   // ** Var
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -13,13 +12,9 @@ const FooterContent = () => {
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
       <Typography sx={{ mr: 2 }}>
         {`© ${new Date().getFullYear()}`}
-        <Box component='span' sx={{ color: 'error.main' }}>
-
-        </Box>
+        <Box component='span' sx={{ color: 'error.main' }}></Box>
         {``}
-        <Link target='_blank' href='https://mui.com/store/contributors/themeselection/'>
-
-        </Link>
+        <Link target='_blank' href='https://mui.com/store/contributors/themeselection/'></Link>
       </Typography>
       {hidden ? null : (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>
@@ -32,9 +27,9 @@ const FooterContent = () => {
           >
             {/* Documentação */}
           </Link>
-          <Link target='_blank' href='https://www.boxtecnologia.com.br/'>
-            Site
-          </Link>
+          <div className='version'>
+            <p>Versão: 1.0.0</p>
+          </div>
         </Box>
       )}
     </Box>

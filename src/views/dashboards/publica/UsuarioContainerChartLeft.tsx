@@ -115,36 +115,6 @@ const UsuarioContainerChartLeft = () => {
               </Box>
             </Box>
             <Divider sx={{ my: 4 }} />
-            <Grid container>
-              <Grid item xs={6} sx={{ mb: 4 }}>
-                <Box sx={{ mb: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Circle sx={{ mr: 1.5, fontSize: '0.75rem', color: 'primary.main' }} />
-                  <Typography variant='body2'>Master</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600, display: 'flex', justifyContent: 'center' }}>12</Typography>
-              </Grid>
-              <Grid item xs={6} sx={{ mb: 4 }}>
-                <Box sx={{ mb: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Circle sx={{ mr: 1.5, fontSize: '0.75rem', color: hexToRGBA(theme.palette.primary.main, 0.7) }} />
-                  <Typography variant='body2'>Suporte N1</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600, display: 'flex', justifyContent: 'center' }}>25</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Box sx={{ mb: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Circle sx={{ mr: 1.5, fontSize: '0.75rem', color: hexToRGBA(theme.palette.primary.main, 0.5) }} />
-                  <Typography variant='body2'>Suporte N2</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600, display: 'flex', justifyContent: 'center' }}>60</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Box sx={{ mb: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Circle sx={{ mr: 1.5, fontSize: '0.75rem', color: theme.palette.customColors.bodyBg }} />
-                  <Typography variant='body2'>Financeiro</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600, display: 'flex', justifyContent: 'center' }}>3</Typography>
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
       </CardContent>

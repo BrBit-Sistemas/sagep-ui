@@ -3,8 +3,6 @@
 // ** React Imports
 import { useContext, useState, useEffect, useCallback } from 'react'
 
-
-
 // ** Next Import
 import Link from 'next/link'
 
@@ -21,7 +19,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 
-import { Cancel, Download, Email, FilePdfBox, NoteCheckOutline, Send, Update, } from 'mdi-material-ui'
+import { Cancel, Download, Email, FilePdfBox, NoteCheckOutline, Send, Update } from 'mdi-material-ui'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -54,12 +52,7 @@ import ModalSend from 'src/views/fiscal/notaFiscal/list/ModalSend'
 import ModalEmail from 'src/views/fiscal/notaFiscal/list/ModalEmail'
 import ButtonsExport from 'src/views/fiscal/notaFiscal/list/ButtonsExport'
 
-
 // **
-
-
-
-
 
 // ** INTERFACES
 
@@ -117,7 +110,7 @@ const defaultColumns = [
           </Typography>
         </Box>
       )
-    },
+    }
   },
   {
     flex: 0.15,
@@ -136,7 +129,7 @@ const defaultColumns = [
           sx={{ textTransform: 'capitalize' }}
         />
       )
-    },
+    }
   },
   {
     flex: 0.15,
@@ -197,19 +190,19 @@ const defaultColumns = [
         </Typography>
       )
     }
-  },
+  }
 ]
 
 // **
 
 // ** COMPONENT FUNCIONAL
 const NfseList = () => {
-  const [selectedId, setSelectedId] = useState('');
-  const [openDialogSync, setOpenDialogSync] = useState(false);
-  const [openDialogCancel, setOpenDialogCancel] = useState(false);
-  const [openDialogSend, setOpenDialogSend] = useState(false);
-  const [openModalExport, setOpenModalExport] = useState(false);
-  const [openModalEmail, setOpenModalEmail] = useState(false);
+  const [selectedId, setSelectedId] = useState('')
+  const [openDialogSync, setOpenDialogSync] = useState(false)
+  const [openDialogCancel, setOpenDialogCancel] = useState(false)
+  const [openDialogSend, setOpenDialogSend] = useState(false)
+  const [openModalExport, setOpenModalExport] = useState(false)
+  const [openModalEmail, setOpenModalEmail] = useState(false)
 
   // ** Hooks
   const ability = useContext(AbilityContext)
@@ -233,16 +226,16 @@ const NfseList = () => {
     setValue(val)
   }, [])
 
-  const [listNotaFiscal, setListNotaFiscal] = useState();
+  const [listNotaFiscal, setListNotaFiscal] = useState()
   useEffect(() => {
-    const client = axios.create();
-    useMock(client);
+    const client = axios.create()
+    useMock(client)
     client.get('/fiscal/notaFiscal/list').then(response => {
       const dataArray = response.data
       console.log(dataArray)
       setListNotaFiscal(dataArray)
     })
-  }, []);
+  }, [])
 
   const columns = [
     ...defaultColumns,
@@ -256,53 +249,72 @@ const NfseList = () => {
       align: 'right' as const,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-
           {row.notaFiscalStatusId === status.sent && (
             <>
-            <div>
-              <Tooltip title="Sincronizar">
-                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogSync(true)}}>
-                  <Update fontSize='small' />
-                </IconButton>
-              </Tooltip>
-            </div>
-            <div>
-              <Tooltip title="Cancelar">
-                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogCancel(true)}}>
-                  <Cancel fontSize='small' />
-                </IconButton>
-              </Tooltip>
-            </div>
-          </>
+              <div>
+                <Tooltip title='Sincronizar'>
+                  <IconButton
+                    onClick={() => {
+                      setSelectedId(row.id)
+                      setOpenDialogSync(true)
+                    }}
+                  >
+                    <Update fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div>
+                <Tooltip title='Cancelar'>
+                  <IconButton
+                    onClick={() => {
+                      setSelectedId(row.id)
+                      setOpenDialogCancel(true)
+                    }}
+                  >
+                    <Cancel fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </>
           )}
 
-          {row.notaFiscalStatusId === status.pending &&
+          {row.notaFiscalStatusId === status.pending && (
             <div>
-              <Tooltip title="Enviar NFS-e">
-                <IconButton onClick={() => {setSelectedId(row.id); setOpenDialogSend(true)}}>
+              <Tooltip title='Enviar NFS-e'>
+                <IconButton
+                  onClick={() => {
+                    setSelectedId(row.id)
+                    setOpenDialogSend(true)
+                  }}
+                >
                   <Send fontSize='small' />
                 </IconButton>
               </Tooltip>
-            </div>}
+            </div>
+          )}
 
           <Link href={`/fiscal/notaFiscal/view/${row.id}`} passHref>
-            <Tooltip title="Ver">
+            <Tooltip title='Ver'>
               <IconButton>
                 <EyeOutline fontSize='small' />
               </IconButton>
             </Tooltip>
           </Link>
-          
-          <ButtonsExport selectedId={row.id}/>
+
+          <ButtonsExport selectedId={row.id} />
 
           <div>
-            <Tooltip title="Enviar por E-mail">
-              <IconButton onClick={() => {setSelectedId(row.id); setOpenModalEmail(true);}}>
+            <Tooltip title='Enviar por E-mail'>
+              <IconButton
+                onClick={() => {
+                  setSelectedId(row.id)
+                  setOpenModalEmail(true)
+                }}
+              >
                 <Email fontSize='small' />
               </IconButton>
             </Tooltip>
           </div>
-
         </Box>
       )
     }
@@ -310,44 +322,48 @@ const NfseList = () => {
 
   return (
     <>
-    <Grid container spacing={2}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <PageHeader
-            title={<Typography variant='h5'>Notas Fiscais de Serviço eletrônicas</Typography>}
-            subtitle={<Typography variant='body2'>Lista NFS-e's.</Typography>}
-          />
-        </Grid>
-        {ability?.can('list', 'ac-nfse-page') ? (
+        <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Card>
-              <TableHeader toggle={setOpenModalExport} value={value} handleFilter={handleFilter} />
-              <DataGrid
-                localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-                autoHeight
-                //@ts-ignore
-                rows={listNotaFiscal?.data}
-                //rows={store.data} ***backend
-                columns={columns}
-                pageSize={pageSize}
-                disableSelectionOnClick
-                disableColumnFilter
-                disableColumnMenu
-                rowsPerPageOptions={[10, 25, 50]}
-                onPageSizeChange={(newPageSize: number) => setPageSize(newPageSize)}
-              />
-            </Card>
+            <PageHeader
+              title={<Typography variant='h5'>Notas Fiscais de Serviço Eletrônicas</Typography>}
+              subtitle={<Typography variant='body2'>Lista NFS-e's.</Typography>}
+            />
           </Grid>
-        ) : (
-          <>{defaultMessages.permission}</>
-        )}
+          {ability?.can('list', 'ac-nfse-page') ? (
+            <Grid item xs={12}>
+              <Card>
+                <TableHeader toggle={setOpenModalExport} value={value} handleFilter={handleFilter} />
+                <DataGrid
+                  localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+                  autoHeight
+                  //@ts-ignore
+                  rows={listNotaFiscal?.data}
+                  //rows={store.data} ***backend
+                  columns={columns}
+                  pageSize={pageSize}
+                  disableSelectionOnClick
+                  disableColumnFilter
+                  disableColumnMenu
+                  rowsPerPageOptions={[10, 25, 50]}
+                  onPageSizeChange={(newPageSize: number) => setPageSize(newPageSize)}
+                />
+              </Card>
+            </Grid>
+          ) : (
+            <>{defaultMessages.permission}</>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
-    <ModalSync openDialogSync={openDialogSync} setOpenDialogSync={setOpenDialogSync} selectedId={selectedId}/>
-    <ModalCancel openDialogCancel={openDialogCancel} setOpenDialogCancel={setOpenDialogCancel} selectedId={selectedId}/>
-    <ModalSend openDialogSend={openDialogSend} setOpenDialogSend={setOpenDialogSend} selectedId={selectedId}/>
-    <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport}/>
-    <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail} selectedId={selectedId}/>
+      <ModalSync openDialogSync={openDialogSync} setOpenDialogSync={setOpenDialogSync} selectedId={selectedId} />
+      <ModalCancel
+        openDialogCancel={openDialogCancel}
+        setOpenDialogCancel={setOpenDialogCancel}
+        selectedId={selectedId}
+      />
+      <ModalSend openDialogSend={openDialogSend} setOpenDialogSend={setOpenDialogSend} selectedId={selectedId} />
+      <ModalExport openModalExport={openModalExport} setOpenModalExport={setOpenModalExport} />
+      <ModalEmail openModalEmail={openModalEmail} setOpenModalEmail={setOpenModalEmail} selectedId={selectedId} />
     </>
   )
 }
