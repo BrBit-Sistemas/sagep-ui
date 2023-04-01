@@ -38,7 +38,7 @@ const DashboardPublica = () => {
 
 DashboardPublica.acl = {
   action: 'list',
-  subject: 'ac-dashboard-publica-page'
+  subject: 'ac-dashboardPublica-page'
 }
 
 export default DashboardPublica
