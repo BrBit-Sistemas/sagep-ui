@@ -44,12 +44,12 @@ export type ServicoType = {
   codigoCnae?: number
   codigoTributacaoMunicipio?: string
   codigoNbs?: string
-  discriminacao: string
+  descricao: string
   codigoMunicipio: number
   exigibilidadeISS: number
   identificacaoNaoExigibilidade?: string
   municipioIncidencia?: number
-  numeroProcesso?: string
+  numeroProcesso: number
   notaFiscalId: string
 }
 

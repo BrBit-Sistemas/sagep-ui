@@ -67,7 +67,8 @@ const defaultValues: UsersType = {
   fullName: '',
   userName: '',
   currentPlan: '',
-  avatarColor: 'primary'
+  avatarColor: 'primary',
+  tenant: undefined
 }
 
 const capitalizeFullName = (userName: string) => {

@@ -36,10 +36,10 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { NotaFiscalType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
+import {  ServicoType } from 'src/types/fiscal/notaFiscal/notaFiscalTypes'
 
 // ** Custom Components Imports
-// import ClienteContratoViewDrawer from 'src/views/negocios/comercial/cliente/contrato/view/ClienteContratoViewDrawer'
+import NotaFiscalServicoDrawerView from 'src/views/fiscal/notaFiscal/servico/view/NotaFiscalServicoDrawerView'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -47,8 +47,9 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 interface Props {
   notaFiscalId: string
 }
+
 interface CellType {
-  row: NotaFiscalType
+  row: ServicoType
 }
 
 // ** Styled component for the link for the avatar without image
@@ -58,7 +59,7 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
 }))
 
 // ** renders group column
-const renderServicoNome = (row: NotaFiscalType) => {
+const renderServicoDescricao = (row: ServicoType) => {
   return (
     <AvatarWithoutImageLink href="#">
       <CustomAvatar
@@ -66,7 +67,7 @@ const renderServicoNome = (row: NotaFiscalType) => {
           color={'primary'}
           sx={{ mr: 3, width: 30, height: 30, fontSize: '.875rem' }}
         >
-          {getInitials(row.fornecedor.razaoSocial ? row.fornecedor.razaoSocial : 'SN')}
+          {getInitials(row.descricao ? row.descricao : 'DS')}
       </CustomAvatar>
     </AvatarWithoutImageLink>
   )
@@ -76,16 +77,16 @@ const defaultColumns = [
   {
     flex: 0.08,
     minWidth: 30,
-    field: 'descriminacao',
-    headerName: 'Descriminação',
+    field: 'descricao',
+    headerName: 'Descrição',
     headerAlign: 'left' as const,
     align: 'left' as const,
     renderCell: ({ row }: CellType) => {
-      const { descriminacao } = row
+      const { descricao } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderServicoNome(row)}
+          {renderServicoDescricao(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography
               noWrap
@@ -93,10 +94,10 @@ const defaultColumns = [
               variant='body2'
               sx={{ fontWeight: 600, color: 'text.primary', textDecoration: 'none' }}
             >
-              {descriminacao}
+              {descricao}
             </Typography>
             <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
-              📝{descriminacao}
+              📝{descricao}
             </Typography>
           </Box>
         </Box>
@@ -113,7 +114,7 @@ const defaultColumns = [
     renderCell: ({ row }: CellType) => {
       return (
         <Typography noWrap variant='body2'>
-          {row.notaFiscalServicos.map}
+          {row.codigoMunicipio}
         </Typography>
       )
     }
@@ -128,8 +129,8 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
   // ** State
   const [value, setValue] = useState<string | string[] | undefined>('')
   const [pageSize, setPageSize] = useState<number>(10)
-  const [clienteContratoViewOpen, setClienteContratoViewOpen] = useState<boolean>(false)
-  const [row, setRow] = useState<NotaFiscalType | undefined>()
+  const [notaFiscalServicoViewOpen, setNotaFiscalServicoViewOpen] = useState<boolean>(false)
+  const [row, setRow] = useState<ServicoType | undefined>()
 
   const dispatch = useDispatch<AppDispatch>()
   // const store = useSelector((state: RootState) => state.clienteContrato)
@@ -146,13 +147,13 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
   //   )
   // }, [dispatch, value])
 
-  const handleClienteContratoView = (row : NotaFiscalType) => {
+  const handleNotaFiscalServicoView = (row : ServicoType) => {
     // filter faturas - apenas as quitadas conforme solicitação do cliente
     setRow(row)
-    setClienteContratoViewOpen(true)
+    setNotaFiscalServicoViewOpen(true)
   }
 
-  // const toggleClienteContratoViewDrawer = () => setClienteContratoViewOpen(!clienteContratoViewOpen)
+  const toggleNotaFiscalServicoViewDrawer = () => setNotaFiscalServicoViewOpen(!notaFiscalServicoViewOpen)
 
   const store = [
       {
@@ -176,41 +177,41 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
         codigoCnae: 2221,
         codigoTributacaoMunicipio: '2',
         codigoNbs: '33332',
-        discriminacao: 'Descrição do serviço',
+        descricao: 'SERVIÇO 1',
         codigoMunicipio: 85,
         exigibilidadeISS: 1,
         identificacaoNaoExigibilidade: 'Motivo tal',
         municipioIncidencia: 85,
-        numeroProcesso: '0023233',
+        numeroProcesso: 23233,
         notaFiscalId: '1'
       },
       {
         id: '2',
-        valorServicos: 1200.00,
-        valorDeducoes: 100,
-        valorPis: 15,
-        valorCofins: 200,
-        valorInss: 24.50,
-        valorIr: 16.50,
-        valorCsll: 20,
-        outrasRetencoes: 20,
-        valorTotalTributos: 350.60,
-        valorIss: 12,
-        aliquota: 2,
-        descontoIncondicionado: 20,
-        descontoCondicionado: 23,
-        isIssRetido: 2,
-        responsavelRetencao: 1,
+        valorServicos: 1400.00,
+        valorDeducoes: 200,
+        valorPis: 30,
+        valorCofins: 400,
+        valorInss: 60.52,
+        valorIr: 35.25,
+        valorCsll: 50,
+        outrasRetencoes: 60,
+        valorTotalTributos: 754.12,
+        valorIss: 24,
+        aliquota: 4,
+        descontoIncondicionado: 50,
+        descontoCondicionado: 40,
+        isIssRetido: 10,
+        responsavelRetencao: 5,
         itemListaServico: 'Serviço tal',
-        codigoCnae: 2221,
-        codigoTributacaoMunicipio: '2',
-        codigoNbs: '33332',
-        discriminacao: 'Descrição do serviço',
-        codigoMunicipio: 85,
-        exigibilidadeISS: 1,
-        identificacaoNaoExigibilidade: 'Motivo tal',
-        municipioIncidencia: 85,
-        numeroProcesso: '0023233',
+        codigoCnae: 8569,
+        codigoTributacaoMunicipio: '2540',
+        codigoNbs: '5896',
+        descricao: 'SERVIÇO 2',
+        codigoMunicipio: 7458,
+        exigibilidadeISS: 36,
+        identificacaoNaoExigibilidade: 'Motivo tal 2',
+        municipioIncidencia: 96,
+        numeroProcesso: 14589,
         notaFiscalId: '2'
       }
     ]
@@ -229,7 +230,7 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {ability?.can('read', 'ac-notaFiscalServico-page') &&
             <Tooltip title={t("View")}>
-              <IconButton onClick={() => handleClienteContratoView(row)}>
+              <IconButton onClick={() => handleNotaFiscalServicoView(row)}>
                 <EyeOutline fontSize='small' sx={{ mr: 2 }} />
               </IconButton>
             </Tooltip>
@@ -252,13 +253,13 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
             }
           />
         </Grid> 
-        {ability?.can('list', 'ac-clienteContrato-page') ? (
+        {ability?.can('list', 'ac-notaFiscalServico-page') ? (
           <Grid item xs={12}>
             <Card>
               <DataGrid
                 localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
                 autoHeight
-                rows={store.data}
+                rows={store}
                 columns={columns}
                 checkboxSelection
                 pageSize={pageSize}
@@ -269,7 +270,7 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
             </Card>
           </Grid>
         ) : <>{t("You do not have permission to view this resource.")}</>}
-        {/* <ClienteContratoViewDrawer open={clienteContratoViewOpen} toggle={toggleClienteContratoViewDrawer} row={row}/> */}
+        <NotaFiscalServicoDrawerView open={notaFiscalServicoViewOpen} toggle={toggleNotaFiscalServicoViewDrawer} row={row}/>
       </Grid>
     </Grid>
   )
@@ -279,7 +280,7 @@ const NotaFiscalServicoTableListToView = ({ notaFiscalId }: Props) => {
 // ** Usuário deve possuir a habilidade para ter acesso a esta página
 NotaFiscalServicoTableListToView.acl = {
   action: 'list',
-  subject: 'ac-clienteContrato-page'
+  subject: 'ac-notaFiscalServico-page'
 }
 
 export default NotaFiscalServicoTableListToView
